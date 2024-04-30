@@ -1,0 +1,62 @@
+.movie_details_container {
+  background-color: var(--color-secondary);
+  padding: 1.5rem 0;
+  border-top: 2px solid var(--color-primary);
+  border-top-width: 80%;
+}
+
+.movie_details {
+  width: 80%;
+  margin: auto;
+  background-color: var(--color-secondary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  padding: 0.75rem 0;
+}
+
+.row > img {
+  max-width: 15rem;
+  padding: 0 1.5rem 1rem 0;
+}
+
+.movie_informations {
+  display: inline-block;
+  max-width: 20rem;
+  vertical-align: top;
+  line-height: 1.5rem;
+}
+
+.movie_label {
+  width: 25rem;
+  padding: 0.25rem;
+}
+
+.movie_label > div {
+  font-style: italic;
+  color: lightgrey;
+  width: 10rem;
+  display: inline-block;
+}
+
+.row iframe {
+  width: 35rem;
+  height: 20rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .row iframe {
+    width: 75vw;
+    height: 45vh;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .row iframe {
+    width: 75vw;
+    height: 30vh;
+  }
+}

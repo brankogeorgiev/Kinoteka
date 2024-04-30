@@ -1,0 +1,43 @@
+.gallery {
+  max-width: 80%;
+  margin: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery > h1 {
+  position: relative;
+  color: var(--color-primary);
+  text-align: center;
+  padding: 0rem 0 2rem 0;
+}
+
+.row {
+  text-align: center;
+}
+
+.group {
+  max-width: 50rem;
+  display: inline-block;
+}
+
+.gallery_images img {
+  width: 25rem;
+  height: auto;
+}
+
+.group_m img {
+  max-width: calc(25rem / 2);
+  height: auto;
+}
+
+.group_m {
+  display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+  .gallery img {
+    max-width: 75%;
+  }
+}

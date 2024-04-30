@@ -1,0 +1,125 @@
+.movies_list {
+  background-color: var(--color-secondary);
+  padding: 1rem;
+  border-top: 2px solid var(--color-primary);
+}
+
+.movies_list_inner > h1 {
+  color: var(--color-primary);
+  padding: 1rem 0;
+}
+
+.movies_list_inner {
+  width: 70%;
+  margin: auto;
+}
+
+.movies_list_inner ul li {
+  list-style-type: none;
+  border-top: 1px solid var(--color-primary);
+  padding: 0.75rem 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.movies_list_inner ul li img {
+  max-height: 10rem;
+}
+
+.movie_informations {
+  display: inline-block;
+  color: white;
+  padding-left: 2.5rem;
+  vertical-align: top;
+  line-height: 1.5rem;
+  width: 35rem;
+}
+
+.movie_informations h2 {
+  padding: 1rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.movie_informations > div > div {
+  font-size: 0.8rem;
+}
+
+.movie_label {
+  width: 15rem;
+}
+
+.movie_label a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.times {
+  display: flex;
+  margin: 2.5rem 1rem;
+  padding: 0 2.5rem;
+  width: 100%;
+  justify-content: end;
+}
+
+.times > div {
+  background-color: white;
+  display: inline-block;
+  width: 5rem;
+  height: 5rem;
+  vertical-align: top;
+  margin: 0 1rem;
+  padding: 0.35rem;
+}
+
+.times > div:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.showtime {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.1rem;
+  justify-content: space-between;
+  line-height: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .movie_informations {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .movie_informations h2 {
+    margin: 0;
+  }
+
+  .times {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .movie_informations h2 {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .times > div {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .movie_label {
+    width: 5rem;
+  }
+
+  .movie_informations {
+    line-height: 1.5rem;
+  }
+
+  .showtime {
+    font-size: 0.75rem;
+  }
+}

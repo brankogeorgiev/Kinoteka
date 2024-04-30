@@ -1,0 +1,54 @@
+.upper_section {
+  background: linear-gradient(
+    to right,
+    var(--color-fourth),
+    var(--color-primary)
+  );
+  padding: 0.25rem 0;
+}
+
+.upper_section ul {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  margin: 0;
+}
+
+.upper_section ul li {
+  display: inline-block;
+  padding: 0 0.5rem;
+}
+
+.icon {
+  position: relative;
+}
+
+.upper_section input {
+  padding: 0.5rem;
+  background-color: inherit;
+  border: none;
+  width: 15rem;
+  border-bottom: 1px solid gray;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  transform: translateY(-50%);
+  color: var(--color-fourth);
+  font-size: 1.75rem;
+}
+
+.searchIcon:hover {
+  cursor: pointer;
+}
+
+.person {
+  color: var(--color-fourth);
+  font-size: 2.5rem;
+}
+
+.person:hover {
+  cursor: pointer;
+}

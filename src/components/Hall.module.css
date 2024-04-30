@@ -1,0 +1,35 @@
+.inputSeats {
+  display: inline-block;
+  margin: 1.5rem;
+}
+
+.labelNumOfSeats {
+  display: inline-block;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.numOfSeats {
+  display: inline-block;
+  font-size: 1.5rem;
+  height: 1.5rem;
+  vertical-align: middle;
+}
+
+.selectedSeat {
+  color: red;
+}
+
+.seatReserving {
+  background-color: red !important;
+}
+
+.hallArea > h5,
+.hallArea + h5 {
+  margin-left: 2.5rem;
+  margin-block: 1rem;
+}
+
+.singleChair:hover {
+  cursor: pointer;
+}

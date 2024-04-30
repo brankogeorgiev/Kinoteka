@@ -1,0 +1,136 @@
+.movies_list {
+  background-color: var(--color-secondary);
+  padding: 1rem;
+  border-top: 2px solid var(--color-primary);
+}
+
+.movies_list_inner h1 {
+  color: var(--color-primary);
+  padding: 1rem 0;
+  display: inline-block;
+}
+
+.movies_list_inner > div {
+  display: flex;
+  flex-direction: column;
+  padding-right: 5rem;
+}
+
+.movies_list_inner {
+  width: 70%;
+  margin: auto;
+}
+
+.movies_list_inner button {
+  margin: auto 0;
+  max-width: 12.5rem;
+  padding: 0.5rem;
+  margin: 0.25rem 0 1.25rem 0;
+  background-color: var(--color-fifth);
+  border-radius: 0.5rem;
+}
+
+.movies_list_inner button a {
+  text-decoration: none;
+  color: white;
+}
+
+.movies_list_inner button:hover {
+  cursor: pointer;
+  filter: brightness(85%);
+}
+
+.movies_list_inner ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.movies_list_inner ul li {
+  list-style-type: none;
+  border-top: 1px solid var(--color-primary);
+  padding: 1.5rem;
+  width: max-content;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.movies_list_inner ul li img {
+  max-height: 12.5rem;
+}
+
+.movie_informations {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  line-height: 1.5rem;
+  max-width: 35rem;
+}
+
+.movie_informations > .movie_label {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.movie_informations h2 {
+  padding: 1rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.movie_informations > div > div {
+  font-size: 0.8rem;
+}
+
+.movie_label {
+  max-width: 15rem;
+}
+
+.movie_label a {
+  text-decoration: none;
+  color: inherit;
+  width: max-content;
+}
+
+.movie_label a h3 {
+  max-width: inherit;
+  width: max-content;
+}
+
+.controls {
+  display: inline-block;
+  margin: auto;
+  padding: 0.5rem;
+}
+
+.controls svg {
+  font-size: 1.25rem;
+  margin: 0.25rem;
+}
+
+@media screen and (max-width: 768px) {
+  .movie_informations {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .movie_informations h2 {
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .movie_informations h2 {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .movie_label {
+    width: 5rem;
+  }
+
+  .movie_informations {
+    line-height: 1.5rem;
+  }
+}

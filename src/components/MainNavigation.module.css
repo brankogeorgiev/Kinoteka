@@ -1,0 +1,48 @@
+.header {
+  background-color: var(--color-secondary);
+  padding: 0.5rem;
+}
+
+.list {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.logo {
+  max-width: 12.5rem;
+  padding: 0.5rem;
+}
+
+.list li {
+  display: inline-block;
+  padding: 0 2rem;
+}
+
+.list li > div > a:hover {
+  font-size: 1.035rem;
+  transition: all 0.25s ease-in;
+}
+
+.list li > div > a:not(:hover) {
+  transition: all 0.25s ease-out;
+}
+
+.list li div a {
+  text-decoration: none;
+  color: var(--color-primary);
+  font-family: "Lucida Sans";
+  padding: 0 1rem;
+  border-right: 3px var(--color-primary) solid;
+}
+
+.list li div a:last-child {
+  border-right: none;
+}
+
+.list li div {
+  display: flex;
+  flex-wrap: wrap;
+}
