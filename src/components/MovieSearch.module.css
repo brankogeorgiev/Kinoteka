@@ -1,0 +1,29 @@
+.input_field > input {
+  width: 100%;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  background-color: var(--color-fourth);
+  padding-left: 2rem;
+  color: var(--color-primary);
+}
+
+.input_field > input::placeholder {
+  color: var(--color-primary);
+}
+
+.input_field > svg {
+  position: relative;
+  top: 1.75rem;
+  font-size: 1.25rem;
+  left: 0.5rem;
+  color: var(--color-primary);
+}
+
+.search_container {
+  background-color: var(--color-secondary);
+  padding: 2.5rem;
+}
+
+h4 {
+  color: white;
+}

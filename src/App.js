@@ -20,6 +20,9 @@ import MovieProjectionPage, {
 import AddMovieProjection, {
   loader as movieProjectionsLoader,
 } from "./pages/AddMovieProjections.js";
+import MovieSearchPage, {
+  loader as moviesSearchLoader,
+} from "./pages/MovieSearchPage.js";
 
 const router = createBrowserRouter([
   {
@@ -108,6 +111,11 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: "search",
+        loader: moviesSearchLoader,
+        element: <MovieSearchPage />,
       },
     ],
   },

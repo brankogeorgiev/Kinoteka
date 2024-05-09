@@ -45,6 +45,7 @@ function SignUpForm({ data, navigation }) {
               <label htmlFor="">Confirm Password</label>
             </div>
           </div>
+
           <div className={classes.form_row}>
             <div className={classes.genders}>
               <div className={classes.gender}>
@@ -54,7 +55,20 @@ function SignUpForm({ data, navigation }) {
                 <input type="radio" name="gender" /> Female
               </div>
             </div>
+
+            {/* Using switch */}
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="flexSwitchCheckDefault"
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault">
+                Male or Female
+              </label>
+            </div>
           </div>
+
           <div className={classes.form_row}>
             <div className={classes.input_data}>
               <input type="date" style={{ width: "50%" }} />

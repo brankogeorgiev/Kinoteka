@@ -23,16 +23,29 @@
   padding: 0 1.5rem 1rem 0;
 }
 
-.movie_informations {
+.row > table {
+  display: inline-block;
+  vertical-align: middle;
+  width: 35rem;
+}
+
+.row > table tr {
+  line-height: 1.75rem;
+}
+
+.row > table td:first-child {
+  vertical-align: top;
+}
+
+/* .movie_informations {
   display: inline-block;
   max-width: 20rem;
   vertical-align: top;
   line-height: 1.5rem;
-}
+} */
 
-.movie_label {
-  width: 25rem;
-  padding: 0.25rem;
+.movie_label > div {
+  vertical-align: top;
 }
 
 .movie_label > div {
