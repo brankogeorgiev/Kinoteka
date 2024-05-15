@@ -1,11 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { Form, NavLink, useRouteLoaderData } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 import logo from "../items/logo.png";
 import { useState } from "react";
 
 function MainNavigation() {
   const [loggedIn, setLoggedIn] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(true);
+  const { token, role } = useRouteLoaderData("root");
+  const isAdmin = role === "ROLE_ADMIN";
 
   return (
     <header className={classes.header}>
@@ -13,7 +14,7 @@ function MainNavigation() {
         <ul className={classes.list}>
           <li>
             <NavLink to="/" className={classes.list_item}>
-              <img src={logo} className={classes.logo} />
+              <img src={logo} className={classes.logo} alt="Logo" />
             </NavLink>
           </li>
           <li>
@@ -32,7 +33,7 @@ function MainNavigation() {
                   My Profile
                 </NavLink>
               )}
-              {loggedIn && (
+              {isAdmin && (
                 <NavLink to="/admin/movies" className={classes.list_item}>
                   Admin Page
                 </NavLink>
@@ -41,6 +42,11 @@ function MainNavigation() {
                 <NavLink to="/halls" className={classes.list_item}>
                   Halls
                 </NavLink>
+              )}
+              {token && (
+                <Form action="/logout" method="post">
+                  <button>Logout</button>
+                </Form>
               )}
             </div>
           </li>

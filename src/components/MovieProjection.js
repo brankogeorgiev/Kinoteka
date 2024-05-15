@@ -3,13 +3,16 @@ import { projectFirestore } from "../firebase/config";
 import { LuArmchair } from "react-icons/lu";
 
 import classes from "./Hall.module.css";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
 
 function MovieProjection({ movieProjection }) {
+  const navigate = useNavigate();
   const [numOfSeats, setNumOfSeats] = useState(2);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [movie, setMovie] = useState(null);
   const hall = movieProjection.hall;
+  const { token } = useRouteLoaderData("root");
 
   async function getMovie(movieId) {
     try {
@@ -69,6 +72,9 @@ function MovieProjection({ movieProjection }) {
   let projections, foundProjectionIndex;
 
   async function handleReserve() {
+    if (!token) {
+      return navigate("/auth?type=login");
+    }
     try {
       await projectFirestore
         .collection("hallOccupacy")

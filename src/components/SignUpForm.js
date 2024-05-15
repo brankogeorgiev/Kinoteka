@@ -1,7 +1,7 @@
 import { Form, Link } from "react-router-dom";
 import classes from "./SignUpForm.module.css";
 
-function SignUpForm({ data, navigation }) {
+function SignUpForm({ data, navigation, onSubmit }) {
   const isSubmitting = navigation.state === "submitting";
 
   return (
@@ -10,7 +10,7 @@ function SignUpForm({ data, navigation }) {
         <h1 className={classes.text}>Create your account</h1>
         <Form action="#">
           <div className={classes.form_row}>
-            <div className={classes.input_data}>
+            {/* <div className={classes.input_data}>
               <input type="text" required />
               <div className={classes.underline}></div>
               <label htmlFor="">First Name</label>
@@ -26,27 +26,27 @@ function SignUpForm({ data, navigation }) {
               <input type="text" required />
               <div className={classes.underline}></div>
               <label htmlFor="">Username</label>
-            </div>
+            </div> */}
             <div className={classes.input_data}>
-              <input type="email" required />
+              <input name="email" type="email" id="email" required />
               <div className={classes.underline}></div>
-              <label htmlFor="">Email Address</label>
+              <label htmlFor="email">Email Address</label>
             </div>
           </div>
           <div className={classes.form_row}>
             <div className={classes.input_data}>
-              <input type="password" required />
+              <input name="password" type="password" id="password" required />
               <div className={classes.underline}></div>
-              <label htmlFor="">Password</label>
+              <label htmlFor="password">Password</label>
             </div>
-            <div className={classes.input_data}>
+            {/* <div className={classes.input_data}>
               <input type="password" required />
               <div className={classes.underline}></div>
               <label htmlFor="">Confirm Password</label>
-            </div>
+            </div> */}
           </div>
 
-          <div className={classes.form_row}>
+          {/* <div className={classes.form_row}>
             <div className={classes.genders}>
               <div className={classes.gender}>
                 <input name="gender" type="radio" /> Male
@@ -54,9 +54,9 @@ function SignUpForm({ data, navigation }) {
               <div className={classes.gender}>
                 <input type="radio" name="gender" /> Female
               </div>
-            </div>
+            </div> */}
 
-            {/* Using switch */}
+          {/* Using switch
             <div class="form-check form-switch">
               <input
                 class="form-check-input"
@@ -74,7 +74,7 @@ function SignUpForm({ data, navigation }) {
               <input type="date" style={{ width: "50%" }} />
               <label htmlFor="">Date of Birth</label>
             </div>
-          </div>
+          </div> */}
           <div className={classes.form_row}>
             <div className={classes.input_data}>
               <div className={classes.submit_btn}>

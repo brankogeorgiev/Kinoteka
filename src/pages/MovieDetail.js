@@ -1,5 +1,4 @@
 import { Await, defer, useRouteLoaderData } from "react-router-dom";
-import { loadMoviesFirebase } from "./Movies";
 import { Suspense } from "react";
 import { projectFirestore } from "../firebase/config";
 import MovieDetails from "../components/MovieDetails";
@@ -20,13 +19,13 @@ function MovieDetailPage() {
 
 export default MovieDetailPage;
 
-async function loadMovie(id) {
-  const movies = await loadMoviesFirebase();
+// async function loadMovie(id) {
+//   const movies = await loadMoviesFirebase();
 
-  const movie = movies.find((m) => m.id === id);
-  console.log(movie);
-  return movie;
-}
+//   const movie = movies.find((m) => m.id === id);
+//   console.log(movie);
+//   return movie;
+// }
 
 export async function loadMovieFirebase(id) {
   let movie;

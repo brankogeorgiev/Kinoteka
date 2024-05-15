@@ -1,9 +1,10 @@
-import { Form, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useRouteLoaderData } from "react-router-dom";
 import classes from "./TopBanner.module.css";
 import { IoPersonCircleOutline, IoSearch } from "react-icons/io5";
 
 function TopBanner() {
   const navigate = useNavigate();
+  const { token, email } = useRouteLoaderData("root");
 
   function searchIconHandler() {
     navigate("/search");
@@ -11,21 +12,22 @@ function TopBanner() {
 
   return (
     <section className={classes.upper_section}>
-      <ul>
+      <ul style={{ height: "2.5rem" }}>
         <li className={classes.input_logo}>
           <div className={classes.icon}>
-            <Form method="post">
-              <IoSearch
-                className={classes.searchIcon}
-                onClick={searchIconHandler}
-              />
-            </Form>
+            <IoSearch
+              className={classes.searchIcon}
+              onClick={searchIconHandler}
+            />
           </div>
         </li>
         <li>
-          <NavLink to="/auth?type=login">
-            <IoPersonCircleOutline className={classes.person} />
-          </NavLink>
+          {!token && (
+            <NavLink to="/auth?type=login">
+              <IoPersonCircleOutline className={classes.person} />
+            </NavLink>
+          )}
+          {token && <span>Hello {email}</span>}
         </li>
       </ul>
     </section>

@@ -35,7 +35,7 @@ export async function loadMovieProjectionFirebase(id, time, movieId) {
     ", " +
     timePieces[3];
 
-  const doc = await projectFirestore
+  await projectFirestore
     .collection("hallOccupacy")
     .doc(id)
     .get()

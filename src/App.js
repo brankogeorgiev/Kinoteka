@@ -2,7 +2,9 @@ import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import RootLayout from "./pages/Root";
-import AuthenticationPage from "./pages/Authentication";
+import AuthenticationPage, {
+  action as authAction,
+} from "./pages/Authentication";
 import MoviesRootLayout from "./pages/MoviesRoot";
 import MoviesPage from "./pages/Movies";
 import { loader as moviesLoader } from "./pages/Movies";
@@ -23,17 +25,27 @@ import AddMovieProjection, {
 import MovieSearchPage, {
   loader as moviesSearchLoader,
 } from "./pages/MovieSearchPage.js";
+import { action as logoutAction } from "./pages/Logout.js";
+import {
+  tokenLoader,
+  checkAuthLoader,
+  checkIsAdmin,
+  checkLoginLoader,
+} from "./util/auth.js";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    loader: tokenLoader,
     id: "root",
     children: [
       { index: true, element: <HomePage />, loader: moviesLoader },
       {
         path: "auth",
         element: <AuthenticationPage />,
+        loader: checkLoginLoader,
+        action: authAction,
       },
       {
         path: "movies",
@@ -66,9 +78,12 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
+        id: "admin",
+        loader: checkIsAdmin,
         children: [
           {
             path: "movies",
+            loader: checkAuthLoader,
             children: [
               { index: true, element: <AdminPage />, loader: moviesLoader },
               {
@@ -93,6 +108,7 @@ const router = createBrowserRouter([
       },
       {
         path: "halls",
+        loader: checkIsAdmin,
         children: [
           {
             index: true,
@@ -116,6 +132,10 @@ const router = createBrowserRouter([
         path: "search",
         loader: moviesSearchLoader,
         element: <MovieSearchPage />,
+      },
+      {
+        path: "logout",
+        action: logoutAction,
       },
     ],
   },
