@@ -6,13 +6,13 @@ import classes from "./Hall.module.css";
 import { useNavigate, useRouteLoaderData } from "react-router-dom";
 
 function MovieProjection({ movieProjection }) {
-  const navigate = useNavigate();
   const [numOfSeats, setNumOfSeats] = useState(2);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [movie, setMovie] = useState(null);
-  const hall = movieProjection.hall;
   const { token } = useRouteLoaderData("root");
+  const navigate = useNavigate();
+  const hall = movieProjection.hall;
 
   async function getMovie(movieId) {
     try {
@@ -85,11 +85,11 @@ function MovieProjection({ movieProjection }) {
             projections = doc.data().projections;
             foundProjectionIndex = projections.findIndex((proj) => {
               return (
-                JSON.stringify(proj.time) ==
+                JSON.stringify(proj.time) ===
                   JSON.stringify(movieProjection.time) &&
-                JSON.stringify(proj.movie) ==
+                JSON.stringify(proj.movie) ===
                   JSON.stringify(movieProjection.movie) &&
-                JSON.stringify(proj.hall.name) ==
+                JSON.stringify(proj.hall.name) ===
                   JSON.stringify(movieProjection.hall.name)
               );
             });

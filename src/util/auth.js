@@ -17,12 +17,33 @@ export function getAuthToken() {
   return { token, email, uid, role };
 }
 
+export async function userLoader(uid) {
+  let user;
+  await projectFirestore
+    .collection("users")
+    .doc(uid)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        user = doc.data();
+        user.id = uid;
+      }
+    });
+  console.log(user);
+  return user;
+}
+
+export function getUID() {
+  const uid = localStorage.getItem("uid");
+  return uid;
+}
+
 export function tokenLoader() {
   return getAuthToken();
 }
 
 export function checkAuthLoader() {
-  const token = getAuthToken();
+  const { token } = getAuthToken();
   if (!token) {
     return redirect("/auth?type=login");
   }

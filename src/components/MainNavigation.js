@@ -28,9 +28,17 @@ function MainNavigation() {
               <NavLink to="/" className={classes.list_item}>
                 Cinema Details
               </NavLink>
-              {loggedIn && (
+              {token && (
                 <NavLink to="/" className={classes.list_item}>
                   My Profile
+                </NavLink>
+              )}
+              {token && (
+                <NavLink
+                  to="/profile/favorite-movies"
+                  className={classes.list_item}
+                >
+                  Favourites
                 </NavLink>
               )}
               {isAdmin && (

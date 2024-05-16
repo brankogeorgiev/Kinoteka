@@ -45,10 +45,22 @@ export async function action({ request }) {
       const dobDate = new Date(userWithoutPassword.dateOfBirth);
       const dobTimestamp = firebase.firestore.Timestamp.fromDate(dobDate);
       userWithoutPassword.dateOfBirth = dobTimestamp;
+      userWithoutPassword.favoriteMovies = [];
+
       await projectFirestore
         .collection("users")
         .doc(userCredential.user.uid)
         .set(userWithoutPassword);
+
+      try {
+        userCredential = await auth.signInWithEmailAndPassword(
+          authData.email,
+          authData.password
+        );
+        await setUserInfo(userCredential.user.uid);
+      } catch (error) {
+        return json({ message: "Incorrect credentials." }, { status: 500 });
+      }
     } catch (error) {
       return json({ message: error.message }, { status: 500 });
     }

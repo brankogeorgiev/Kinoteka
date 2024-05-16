@@ -1,17 +1,41 @@
 import { useEffect, useState } from "react";
 import classes from "./MovieDetails.module.css";
-import { Link } from "react-router-dom";
+import { Link, useRouteLoaderData } from "react-router-dom";
 import { projectFirestore } from "../firebase/config";
 import { MdStar } from "react-icons/md";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import { getUID } from "../util/auth";
 
 function MovieDetails({ movie }) {
-  // const time = movie.projections[0].time;
-  // let date = new Date(time.seconds * 1000 + time.nanoseconds / 1000000);
-  // date.setHours(date.getHours() + 2);
-  // date = encodeURIComponent(date.toISOString());
-  // date = date.split(".")[0] + "%2B02%3A00";
-
   const [halls, setHalls] = useState([]);
+  const { token } = useRouteLoaderData("root");
+  const [user, setUser] = useState({});
+  const [isMovieFavorite, setIsMovieFavorite] = useState(false);
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  useEffect(() => {
+    setIsMovieFavoriteForUser();
+  }, [user]);
+
+  async function loadUser() {
+    if (!token) return;
+    const uid = getUID();
+    let userFromDb;
+    await projectFirestore
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          userFromDb = doc.data();
+          userFromDb.id = uid;
+        }
+      });
+    setUser(userFromDb);
+  }
 
   const getHallName = (hall) => {
     const foundHall = halls.find((tmp) => tmp.id === hall);
@@ -37,12 +61,58 @@ function MovieDetails({ movie }) {
     fetchHalls();
   }, []);
 
+  async function handleFavoritesClick() {
+    const movieId = movie.id;
+    const uid = getUID();
+    if (user.favoriteMovies.includes(movieId)) {
+      const indexOfMovie = user.favoriteMovies.indexOf(movieId);
+      user.favoriteMovies.splice(indexOfMovie, 1);
+    } else {
+      user.favoriteMovies.push(movieId);
+    }
+    await projectFirestore.collection("users").doc(uid).update({
+      favoriteMovies: user.favoriteMovies,
+    });
+    setIsMovieFavoriteForUser();
+    return;
+  }
+
+  function setIsMovieFavoriteForUser() {
+    if (user && user.favoriteMovies && user.favoriteMovies.includes(movie.id)) {
+      setIsMovieFavorite(true);
+    } else {
+      setIsMovieFavorite(false);
+    }
+  }
+
   return (
     <>
       <div className={classes.movie_details_container}>
         <div className={classes.movie_details}>
           <div className={classes.row}>
-            <h1>Movie Title: {movie.title}</h1>
+            <h1>
+              Movie Title: {movie.title}{" "}
+              {token && (
+                <span>
+                  {isMovieFavorite && (
+                    <button
+                      style={{ backgroundColor: "transparent", border: "none" }}
+                      onClick={handleFavoritesClick}
+                    >
+                      <FaHeart style={{ color: "red" }} />
+                    </button>
+                  )}
+                  {!isMovieFavorite && (
+                    <button
+                      style={{ backgroundColor: "transparent", border: "none" }}
+                      onClick={handleFavoritesClick}
+                    >
+                      <FaRegHeart style={{ color: "red" }} />
+                    </button>
+                  )}
+                </span>
+              )}
+            </h1>
           </div>
           <div className={classes.row}>
             <iframe
@@ -50,7 +120,6 @@ function MovieDetails({ movie }) {
               title="YouTube video player"
               frameBorder="0"
               allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
               webkitallowfullscreen="true"
             ></iframe>
           </div>

@@ -32,6 +32,9 @@ import {
   checkIsAdmin,
   checkLoginLoader,
 } from "./util/auth.js";
+import ProfileFavoriteMoviesPage, {
+  loader as loadMoviesAndUserFirebase,
+} from "./pages/ProfileFavoriteMoviesPage.js";
 
 const router = createBrowserRouter([
   {
@@ -125,6 +128,23 @@ const router = createBrowserRouter([
                 element: <HallPage />,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: "profile",
+        id: "profile",
+        loader: checkAuthLoader,
+        children: [
+          {
+            index: true,
+            element: <div>Hello</div>,
+          },
+          {
+            path: "favorite-movies",
+            id: "favorite-movies",
+            loader: loadMoviesAndUserFirebase,
+            element: <ProfileFavoriteMoviesPage />,
           },
         ],
       },
