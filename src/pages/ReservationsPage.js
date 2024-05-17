@@ -1,24 +1,24 @@
 import { Await, defer, useRouteLoaderData } from "react-router-dom";
 import { Suspense } from "react";
 import { projectFirestore } from "../firebase/config";
-import { getUID, tokenLoader } from "../util/auth";
-import ProfileFavoriteMovies from "../components/ProfileFavoriteMovies";
+import { getUID } from "../util/auth";
+import MyReservations from "../components/MyReservations";
 
-function ProfileFavoriteMoviesPage() {
-  const { object } = useRouteLoaderData("favorite-movies");
+function ReservationsPage() {
+  const { object } = useRouteLoaderData("my-reservations");
 
   return (
     <>
       <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
         <Await resolve={object}>
-          {(loadedObject) => <ProfileFavoriteMovies object={loadedObject} />}
+          {(loadedObject) => <MyReservations object={loadedObject} />}
         </Await>
       </Suspense>
     </>
   );
 }
 
-export default ProfileFavoriteMoviesPage;
+export default ReservationsPage;
 
 export async function loadMoviesAndUserFirebase(uid) {
   let results = [];

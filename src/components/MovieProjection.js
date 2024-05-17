@@ -10,9 +10,35 @@ function MovieProjection({ movieProjection }) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [movie, setMovie] = useState(null);
-  const { token } = useRouteLoaderData("root");
+  const [user, setUser] = useState({});
+  const { token, uid } = useRouteLoaderData("root");
   const navigate = useNavigate();
   const hall = movieProjection.hall;
+
+  useEffect(() => {
+    fetchUser(uid);
+  }, []);
+
+  async function fetchUser(uid) {
+    try {
+      await projectFirestore
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            // console.log(doc);
+            const userToSet = {
+              ...doc.data(),
+              id: uid,
+            };
+            setUser(userToSet);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   async function getMovie(movieId) {
     try {
@@ -22,7 +48,7 @@ function MovieProjection({ movieProjection }) {
         .get()
         .then((doc) => {
           if (doc.exists) {
-            setMovie(doc.data());
+            setMovie({ ...doc.data(), id: movieId });
           } else {
             console.log("Could not find that movie");
           }
@@ -83,16 +109,9 @@ function MovieProjection({ movieProjection }) {
         .then((doc) => {
           if (doc.exists) {
             projections = doc.data().projections;
-            foundProjectionIndex = projections.findIndex((proj) => {
-              return (
-                JSON.stringify(proj.time) ===
-                  JSON.stringify(movieProjection.time) &&
-                JSON.stringify(proj.movie) ===
-                  JSON.stringify(movieProjection.movie) &&
-                JSON.stringify(proj.hall.name) ===
-                  JSON.stringify(movieProjection.hall.name)
-              );
-            });
+            foundProjectionIndex = projections.findIndex(
+              (proj) => proj.id === movieProjection.id
+            );
             console.log(foundProjectionIndex);
           } else {
             console.log("Could not find that hall");
@@ -120,11 +139,40 @@ function MovieProjection({ movieProjection }) {
     try {
       await projectFirestore
         .collection("hallOccupacy")
-        .doc(hall.name.split(" ").join("").toLowerCase()) // !!!!!!!!!!!!!!!!!!!!
+        .doc(hall.name.split(" ").join("").toLowerCase()) // !!!
         .set(objectToSend);
     } catch (err) {
       console.log(err);
     }
+
+    const reservation = {
+      id: crypto.randomUUID(),
+      user: uid,
+      movie: movie.id,
+      hall: hall.id,
+      time: movieProjection.time,
+      movieProjectionId: movieProjection.id,
+      seats: [],
+    };
+
+    selectedSeats.forEach((seat) => {
+      reservation.seats.push({
+        row: seat[0],
+        seat: seat[1],
+      });
+    });
+
+    try {
+      await projectFirestore
+        .collection("users")
+        .doc(uid)
+        .update({
+          reservations: [...user.reservations, reservation],
+        });
+    } catch (err) {
+      console.log(err);
+    }
+
     window.location.reload();
   }
 

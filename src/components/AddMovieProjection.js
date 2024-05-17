@@ -67,12 +67,14 @@ function AddMovieProjection({ data }) {
     const dateTime = new Date(formData.date + "T" + formData.time);
     const timestamp = firebase.firestore.Timestamp.fromDate(dateTime);
 
+    const movieProjectionId = crypto.randomUUID();
     const foundHall = findHallById(formData.hallId);
 
     const dataToSend = {
       movie: formData.movieId,
       time: timestamp,
       hall: foundHall,
+      id: movieProjectionId,
     };
 
     let projections = [];
@@ -110,6 +112,7 @@ function AddMovieProjection({ data }) {
     let movieProjectionToPush = {
       time: timestamp,
       hall: formData.hallId,
+      id: movieProjectionId,
     };
 
     movieProjections.push(movieProjectionToPush);

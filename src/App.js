@@ -35,6 +35,12 @@ import {
 import ProfileFavoriteMoviesPage, {
   loader as loadMoviesAndUserFirebase,
 } from "./pages/ProfileFavoriteMoviesPage.js";
+import ReservationsPage, {
+  loader as loadMoviesAndUsersFirebase,
+} from "./pages/ReservationsPage.js";
+import ReservationDetailPage, {
+  loader as loadReservationFirebase,
+} from "./pages/ReservationDetailPage.js";
 
 const router = createBrowserRouter([
   {
@@ -145,6 +151,22 @@ const router = createBrowserRouter([
             id: "favorite-movies",
             loader: loadMoviesAndUserFirebase,
             element: <ProfileFavoriteMoviesPage />,
+          },
+          {
+            path: "my-reservations",
+            children: [
+              {
+                index: true,
+                id: "my-reservations",
+                loader: loadMoviesAndUsersFirebase,
+                element: <ReservationsPage />,
+              },
+              {
+                path: ":reservationId",
+                element: <ReservationDetailPage />,
+                loader: loadReservationFirebase,
+              },
+            ],
           },
         ],
       },

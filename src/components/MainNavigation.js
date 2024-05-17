@@ -41,6 +41,14 @@ function MainNavigation() {
                   Favourites
                 </NavLink>
               )}
+              {token && (
+                <NavLink
+                  to="/profile/my-reservations"
+                  className={classes.list_item}
+                >
+                  My Tickets
+                </NavLink>
+              )}
               {isAdmin && (
                 <NavLink to="/admin/movies" className={classes.list_item}>
                   Admin Page

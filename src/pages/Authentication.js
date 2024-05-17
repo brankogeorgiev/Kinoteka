@@ -46,6 +46,7 @@ export async function action({ request }) {
       const dobTimestamp = firebase.firestore.Timestamp.fromDate(dobDate);
       userWithoutPassword.dateOfBirth = dobTimestamp;
       userWithoutPassword.favoriteMovies = [];
+      userWithoutPassword.reservations = [];
 
       await projectFirestore
         .collection("users")

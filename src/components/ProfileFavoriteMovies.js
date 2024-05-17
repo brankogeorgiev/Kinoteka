@@ -30,20 +30,21 @@ function ProfileFavoriteMovies({ object }) {
       className="container-fluid"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
+      <h1 className="text-white ms-5 ps-5 pt-3">Favorite movies</h1>
       <div className="container p-5 text-white">
         {favoriteMovies &&
           favoriteMovies.map((element) => (
             <Link to={"/movies/" + element.id} key={element.id}>
               <div
                 key={element.id}
-                style={{ width: "15rem", display: "inline-block" }}
-                className="card bg-dark text-white m-2"
+                style={{ display: "inline-block" }}
+                className="card bg-dark text-white my-1 mx-3"
               >
                 <img
                   className="card-img"
                   src={element.poster}
                   alt="Card image"
-                  style={{ opacity: "0.75" }}
+                  style={{ opacity: "0.75", width: "15rem", height: "22.5rem" }}
                 />
                 <div className="card-img-overlay">
                   <button
