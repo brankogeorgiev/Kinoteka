@@ -35,9 +35,18 @@ export async function loadMovieProjectionsFirebase() {
       ...element.data(),
     }));
 
+    const hallOccupacySnapshot = await projectFirestore
+      .collection("hallOccupacy")
+      .get();
+    const hallOccupacy = hallOccupacySnapshot.docs.map((el) => ({
+      id: el.id,
+      ...el.data(),
+    }));
+
     data = {
       movies: movies,
       halls: halls,
+      hallOccupacy: hallOccupacy,
     };
 
     return data;

@@ -1,40 +1,23 @@
 import { useState } from "react";
 import { projectFirestore } from "../firebase/config";
 import firebase from "firebase/app";
+import { useNavigate } from "react-router-dom";
 
 function AddMovieProjection({ data }) {
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
   const movies = data.movies;
   const halls = data.halls;
-
-  // console.log(halls);
+  const [error, setError] = useState(null);
 
   const [formData, updateFormData] = useState({
     movieId: "",
     hallId: "",
-    date: "",
+    date: null,
     time: "",
+    from: null,
+    to: null,
   });
-
-  async function getEmptyHall(hallId) {
-    let foundHall = {};
-    try {
-      await projectFirestore
-        .collection("halls")
-        .doc(hallId)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            foundHall = {
-              id: doc.id,
-              ...doc.data(),
-            };
-          }
-        });
-      console.log(foundHall);
-    } catch (err) {
-      console.log("Failed loading hall: ", err);
-    }
-  }
 
   function handleChange(e) {
     updateFormData({
@@ -44,90 +27,302 @@ function AddMovieProjection({ data }) {
   }
 
   function findHallById(hallId) {
-    return halls.find((tmp) => tmp.id == hallId);
+    return halls.find((tmp) => tmp.id === hallId);
+  }
+
+  function checkHallAvailability(
+    projToAddStart,
+    projToAddEnd,
+    loopedProjStart,
+    loopedProjEnd
+  ) {
+    const projToAddBetween =
+      projToAddStart.getTime() +
+      (projToAddEnd.getTime() - projToAddStart.getTime()) / 2;
+    if (projToAddStart > loopedProjEnd || projToAddEnd < loopedProjStart) {
+      setError(null);
+      return true;
+    } else if (
+      projToAddBetween > loopedProjStart &&
+      projToAddBetween < loopedProjEnd
+    ) {
+      setError("Another movie is already playing in that time in the hall!");
+      return false;
+    } else {
+      setError("Another movie is already playing in that time in the hall!");
+      return false;
+    }
+  }
+
+  async function fetchHallProjections(hallId) {
+    let projections = [];
+    try {
+      const doc = await projectFirestore
+        .collection("hallOccupacy")
+        .doc(hallId)
+        .get();
+      if (doc.exists) {
+        projections = doc.data().projections;
+      }
+    } catch (err) {
+      console.log("Failed getting document: ", err);
+      throw new Error("Failed getting document");
+    }
+    return projections;
+  }
+
+  async function updateProjections(dataToSend, projections, projectionsToPush) {
+    let projectionsToPushForMovie = [];
+
+    projectionsToPush &&
+      projectionsToPush.forEach((proj) => {
+        const projToPush = {
+          hall: proj.hall.id,
+          id: proj.id,
+          time: proj.time,
+        };
+        projectionsToPushForMovie.push(projToPush);
+      });
+
+    try {
+      let hallProjections = [];
+
+      await projectFirestore
+        .collection("hallOccupacy")
+        .doc(dataToSend.hall.id)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            hallProjections = doc.data().projections;
+          }
+        });
+
+      if (!projectionsToPush) {
+        let movieProjections = movies.find(
+          (tmp) => tmp.id === dataToSend.movie
+        ).projections;
+        let movieProjectionToPush = {
+          time: dataToSend.time,
+          hall: dataToSend.hall.id,
+          id: dataToSend.id,
+        };
+
+        movieProjections.push(movieProjectionToPush);
+        hallProjections.push(dataToSend);
+
+        await projectFirestore
+          .collection("movies")
+          .doc(dataToSend.movie)
+          .update({ projections: movieProjections });
+
+        await projectFirestore
+          .collection("hallOccupacy")
+          .doc(dataToSend.hall.id)
+          .update({ projections: hallProjections });
+        // End of Single Projection Addition
+      } else {
+        let projectionsForMovie = [];
+        await projectFirestore
+          .collection("movies")
+          .doc(dataToSend.movie)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              projectionsForMovie = doc.data().projections;
+            }
+          });
+
+        console.log(hallProjections, projectionsToPush);
+
+        await projectFirestore
+          .collection("movies")
+          .doc(dataToSend.movie)
+          .update({
+            projections: [...projectionsForMovie, ...projectionsToPushForMovie],
+          });
+
+        await projectFirestore
+          .collection("hallOccupacy")
+          .doc(dataToSend.hall.id)
+          .update({
+            projections: [...hallProjections, ...projectionsToPush],
+          });
+      }
+
+      // navigate("/admin/movies");
+    } catch (err) {
+      console.log("Error updating Firestore: ", err);
+    }
+  }
+
+  async function addSingleProjection(dataToSend) {
+    const projections = await fetchHallProjections(dataToSend.hall.id);
+
+    const movie = movies.find((mov) => mov.id === dataToSend.movie);
+    const projectionToAddMillisStart = dataToSend.time.toDate();
+    const millisecondsToAdd =
+      projectionToAddMillisStart.getTime() + movie.durationTime * 60000;
+    const roundedMinutes = Math.ceil(millisecondsToAdd / (15 * 60000)) * 15;
+    const roundedMilliseconds = roundedMinutes * 60000;
+    const projectionToAddMillisEnd = new Date(roundedMilliseconds);
+
+    const outcome = projections.every((proj) => {
+      const movieTemp = movies.find((mov) => mov.id === proj.movie);
+      const startTime = new Date(
+        proj.time.seconds * 1000 + proj.time.nanoseconds / 1000000
+      );
+      const millisecondsToAddTemp =
+        startTime.getTime() + movieTemp.durationTime * 60000;
+      const roundedMinutesTemp =
+        Math.ceil(millisecondsToAddTemp / (15 * 60000)) * 15;
+      const roundedMillisecondsTemp = roundedMinutesTemp * 60000;
+      const endTime = new Date(roundedMillisecondsTemp);
+
+      return checkHallAvailability(
+        projectionToAddMillisStart,
+        projectionToAddMillisEnd,
+        startTime,
+        endTime
+      );
+    });
+
+    if (outcome) {
+      projections.push(dataToSend);
+      await updateProjections(dataToSend, projections);
+    }
+  }
+
+  async function addMultipleProjections(dataToSend, fromDate, toDate) {
+    const projections = await fetchHallProjections(dataToSend.hall.id);
+    const movie = movies.find((mov) => mov.id === dataToSend.movie);
+    const { time } = formData;
+    const [hours, minutes] = time.split(":").map(Number);
+    const timeMillis = (hours * 3600 + minutes * 60) * 1000;
+
+    let valid = true;
+    for (
+      let date = new Date(fromDate);
+      date <= toDate;
+      date.setDate(date.getDate() + 1)
+    ) {
+      const projectionToAddMillisStart = new Date(date);
+      projectionToAddMillisStart.setMilliseconds(
+        timeMillis - 2 * 60 * 60 * 1000
+      );
+      const millisecondsToAdd =
+        projectionToAddMillisStart.getTime() + movie.durationTime * 60000;
+      const roundedMinutes = Math.ceil(millisecondsToAdd / (15 * 60000)) * 15;
+      const roundedMilliseconds = roundedMinutes * 60000;
+      const projectionToAddMillisEnd = new Date(roundedMilliseconds);
+
+      const outcome = projections.every((proj) => {
+        const movieTemp = movies.find((mov) => mov.id === proj.movie);
+        const startTime = new Date(
+          proj.time.seconds * 1000 + proj.time.nanoseconds / 1000000
+        );
+        const millisecondsToAddTemp =
+          startTime.getTime() + movieTemp.durationTime * 60000;
+        const roundedMinutesTemp =
+          Math.ceil(millisecondsToAddTemp / (15 * 60000)) * 15;
+        const roundedMillisecondsTemp = roundedMinutesTemp * 60000;
+        const endTime = new Date(roundedMillisecondsTemp);
+
+        return checkHallAvailability(
+          projectionToAddMillisStart,
+          projectionToAddMillisEnd,
+          startTime,
+          endTime
+        );
+      });
+
+      if (!outcome) {
+        valid = false;
+        break;
+      }
+    }
+
+    let projectionsToPushForMovieTemp = [];
+    if (valid) {
+      for (
+        let date = new Date(fromDate);
+        date <= toDate;
+        date.setDate(date.getDate() + 1)
+      ) {
+        const projectionToAddMillisStart = new Date(date);
+        projectionToAddMillisStart.setMilliseconds(
+          timeMillis - 2 * 60 * 60 * 1000
+        );
+        const timestamp = firebase.firestore.Timestamp.fromDate(
+          projectionToAddMillisStart
+        );
+
+        const dataToSendWithTime = {
+          ...dataToSend,
+          time: timestamp,
+        };
+
+        projectionsToPushForMovieTemp.push(dataToSendWithTime);
+      }
+      await updateProjections(
+        dataToSend,
+        projections,
+        projectionsToPushForMovieTemp
+      );
+    }
   }
 
   async function handleFormSubmit(e) {
     e.preventDefault();
 
-    if (
-      formData.movieId == undefined ||
-      formData.movieId === "" ||
-      formData.hallId == undefined ||
-      formData.hallId === "" ||
-      formData.date == undefined ||
-      formData.date === "" ||
-      formData.time == undefined ||
-      formData.time === ""
-    ) {
-      // Throw an error message
+    if (!formData.movieId || !formData.hallId || !formData.time) {
+      setError("Please fill all the fields");
       return;
+    } else {
+      setError(null);
     }
-
-    const dateTime = new Date(formData.date + "T" + formData.time);
-    const timestamp = firebase.firestore.Timestamp.fromDate(dateTime);
 
     const movieProjectionId = crypto.randomUUID();
     const foundHall = findHallById(formData.hallId);
 
-    const dataToSend = {
-      movie: formData.movieId,
-      time: timestamp,
-      hall: foundHall,
-      id: movieProjectionId,
-    };
+    if (!checked) {
+      const date = !!formData.date
+        ? new Date(formData.date + "T" + formData.time)
+        : null;
+      const timestamp = !!date
+        ? firebase.firestore.Timestamp.fromDate(date)
+        : null;
 
-    let projections = [];
+      if (date !== null) {
+        const dataToSend = {
+          movie: formData.movieId,
+          time: timestamp,
+          hall: foundHall,
+          id: movieProjectionId,
+        };
+        await addSingleProjection(dataToSend);
+      }
+    } else {
+      const fromTime = !!formData.from ? new Date(formData.from) : null;
+      const toTime = !!formData.to ? new Date(formData.to) : null;
 
-    try {
-      await projectFirestore
-        .collection("hallOccupacy")
-        .doc(formData.hallId)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            projections = doc.data().projections;
-            projections.push(dataToSend);
-          }
-        });
-    } catch (err) {
-      console.log("Failed getting document: ", err);
+      if (fromTime && toTime) {
+        const dataToSend = {
+          movie: formData.movieId,
+          hall: foundHall,
+          id: movieProjectionId,
+        };
+        await addMultipleProjections(dataToSend, fromTime, toTime);
+      }
     }
+  }
 
-    try {
-      await projectFirestore
-        .collection("hallOccupacy")
-        .doc(formData.hallId)
-        .update({
-          projections: projections,
-        });
-    } catch (err) {
-      console.log("Error adding a movie projection: ", err);
-    }
-
-    let movieProjections = movies.find(
-      (tmp) => tmp.id === formData.movieId
-    ).projections;
-
-    let movieProjectionToPush = {
-      time: timestamp,
-      hall: formData.hallId,
-      id: movieProjectionId,
-    };
-
-    movieProjections.push(movieProjectionToPush);
-
-    try {
-      await projectFirestore.collection("movies").doc(formData.movieId).update({
-        projections: movieProjections,
-      });
-    } catch (err) {
-      console.log("Failed to append movie projection: ", err);
-    }
+  function handleMultipleAtOnceChange(e) {
+    setChecked(!checked);
   }
 
   return (
     <div className="container m-5 p-5">
+      {error && <h3 className="text-danger">{error}</h3>}
       <form>
         <div className="form-group">
           <div className="row m-3 p-3">
@@ -138,7 +333,9 @@ function AddMovieProjection({ data }) {
                 className="form-control"
                 id="movieId"
                 onChange={handleChange}
+                required
               >
+                <option value={null}>---</option>
                 {movies.map((movie) => (
                   <option key={movie.id} value={movie.id}>
                     {movie.title}
@@ -153,7 +350,9 @@ function AddMovieProjection({ data }) {
                 className="form-control"
                 id="hallId"
                 onChange={handleChange}
+                required
               >
+                <option value={null}>---</option>
                 {halls.map((hall) => (
                   <option key={hall.id} value={hall.id}>
                     {hall.name}
@@ -163,18 +362,59 @@ function AddMovieProjection({ data }) {
             </div>
           </div>
         </div>
-
         <div className="form-group">
           <div className="row m-3 p-3">
-            <div className="col">
-              <label htmlFor="date">Projection date</label>
+            <div className="col px-5">
               <input
-                name="date"
-                type="date"
-                className="form-control"
-                onChange={handleChange}
-              ></input>
+                type="checkbox"
+                id="multiple-projections"
+                checked={checked}
+                onChange={handleMultipleAtOnceChange}
+              />
+              <label className="ps-2" htmlFor="multiple-projections">
+                Add for multiple projections at once
+              </label>
             </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="row m-3 p-3">
+            {!checked && (
+              <div className="col">
+                <label htmlFor="date">Projection date</label>
+                <input
+                  name="date"
+                  id="date"
+                  type="date"
+                  className="form-control"
+                  onChange={handleChange}
+                ></input>
+              </div>
+            )}
+            {checked && (
+              <>
+                <div className="col">
+                  <label htmlFor="from">From</label>
+                  <input
+                    name="from"
+                    id="from"
+                    type="date"
+                    className="form-control"
+                    onChange={handleChange}
+                  ></input>
+                </div>
+                <div className="col">
+                  <label htmlFor="to">To</label>
+                  <input
+                    name="to"
+                    id="to"
+                    type="date"
+                    className="form-control"
+                    onChange={handleChange}
+                  ></input>
+                </div>
+              </>
+            )}
             <div className="col">
               <label htmlFor="time">Projection time</label>
               <input

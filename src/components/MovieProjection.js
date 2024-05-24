@@ -15,6 +15,8 @@ function MovieProjection({ movieProjection }) {
   const navigate = useNavigate();
   const hall = movieProjection.hall;
 
+  console.log(movieProjection);
+
   useEffect(() => {
     fetchUser(uid);
   }, []);
