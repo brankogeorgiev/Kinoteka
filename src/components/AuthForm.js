@@ -15,7 +15,7 @@ function AuthForm({ onSubmit, error }) {
   const isSubmitting = navigation.state === "submitting"; // TO-DO
 
   return (
-    <>
+    <div className="container-fluid flex-grow-1">
       <Form method="post">
         <h1>{isLogin ? "Log in" : "Create a new user"}</h1>
         {/* TODO */}
@@ -72,7 +72,7 @@ function AuthForm({ onSubmit, error }) {
           </button>
         </div>
       </Form>
-    </>
+    </div>
   );
 }
 

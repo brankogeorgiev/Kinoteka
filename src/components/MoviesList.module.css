@@ -61,14 +61,20 @@
   justify-content: end;
 }
 
-.times > div {
+.times > a {
+  text-decoration: none;
+  color: black;
   background-color: white;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
   width: 5rem;
   height: 5rem;
   vertical-align: top;
   margin: 0 1rem;
   padding: 0.35rem;
+}
+
+.times > div {
 }
 
 .times > div:hover {

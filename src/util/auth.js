@@ -62,7 +62,7 @@ export function checkLoginLoader() {
 export function checkIsAdmin() {
   const role = localStorage.getItem("role");
   if (role !== "ROLE_ADMIN") {
-    return redirect("/access_denied");
+    return redirect("/access-denied");
   }
   return true;
 }
@@ -83,4 +83,70 @@ export async function setUserInfo(uid) {
         // localStorage.setItem("expiration", expiration.toISOString());
       }
     });
+}
+
+export async function handleAddHall() {
+  try {
+    await projectFirestore
+      .collection("halls")
+      .doc("hall3")
+      .set({
+        name: "Hall 3",
+        rows: [
+          {
+            row: 1,
+            seats: [
+              { seat: 1, reserved: false },
+              { seat: 2, reserved: false },
+              { seat: 3, reserved: false },
+              { seat: 4, reserved: false },
+              { seat: 5, reserved: false },
+            ],
+          },
+          {
+            row: 2,
+            seats: [
+              { seat: 1, reserved: false },
+              { seat: 2, reserved: false },
+              { seat: 3, reserved: false },
+              { seat: 4, reserved: false },
+              { seat: 5, reserved: false },
+            ],
+          },
+          {
+            row: 3,
+            seats: [
+              { seat: 1, reserved: false },
+              { seat: 2, reserved: false },
+              { seat: 3, reserved: false },
+              { seat: 4, reserved: false },
+              { seat: 5, reserved: false },
+            ],
+          },
+          {
+            row: 4,
+            seats: [
+              { seat: 1, reserved: false },
+              { seat: 2, reserved: false },
+              { seat: 3, reserved: false },
+              { seat: 4, reserved: false },
+              { seat: 5, reserved: false },
+            ],
+          },
+          {
+            row: 5,
+            seats: [
+              { seat: 1, reserved: false },
+              { seat: 2, reserved: false },
+              { seat: 3, reserved: false },
+              { seat: 4, reserved: false },
+              { seat: 5, reserved: false },
+            ],
+          },
+        ],
+      });
+    console.log("Hall added successfully");
+  } catch (err) {
+    console.log(err);
+  }
 }

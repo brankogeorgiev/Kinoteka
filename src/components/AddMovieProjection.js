@@ -149,7 +149,7 @@ function AddMovieProjection({ data }) {
           });
       }
 
-      // navigate("/admin/movies");
+      navigate("/admin/movies");
     } catch (err) {
       console.log("Error updating Firestore: ", err);
     }
@@ -259,6 +259,7 @@ function AddMovieProjection({ data }) {
         const dataToSendWithTime = {
           ...dataToSend,
           time: timestamp,
+          id: crypto.randomUUID(),
         };
 
         projectionsToPushForMovieTemp.push(dataToSendWithTime);
@@ -281,7 +282,7 @@ function AddMovieProjection({ data }) {
       setError(null);
     }
 
-    const movieProjectionId = crypto.randomUUID();
+    // const movieProjectionId = crypto.randomUUID();
     const foundHall = findHallById(formData.hallId);
 
     if (!checked) {
@@ -297,7 +298,7 @@ function AddMovieProjection({ data }) {
           movie: formData.movieId,
           time: timestamp,
           hall: foundHall,
-          id: movieProjectionId,
+          id: crypto.randomUUID(),
         };
         await addSingleProjection(dataToSend);
       }
@@ -309,7 +310,7 @@ function AddMovieProjection({ data }) {
         const dataToSend = {
           movie: formData.movieId,
           hall: foundHall,
-          id: movieProjectionId,
+          // id: movieProjectionId,
         };
         await addMultipleProjections(dataToSend, fromTime, toTime);
       }
@@ -321,121 +322,126 @@ function AddMovieProjection({ data }) {
   }
 
   return (
-    <div className="container m-5 p-5">
-      {error && <h3 className="text-danger">{error}</h3>}
-      <form>
-        <div className="form-group">
-          <div className="row m-3 p-3">
-            <div className="col">
-              <label htmlFor="movieId">Select movie</label>
-              <select
-                name="movieId"
-                className="form-control"
-                id="movieId"
-                onChange={handleChange}
-                required
-              >
-                <option value={null}>---</option>
-                {movies.map((movie) => (
-                  <option key={movie.id} value={movie.id}>
-                    {movie.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="col">
-              <label htmlFor="hallId">Select hall</label>
-              <select
-                name="hallId"
-                className="form-control"
-                id="hallId"
-                onChange={handleChange}
-                required
-              >
-                <option value={null}>---</option>
-                {halls.map((hall) => (
-                  <option key={hall.id} value={hall.id}>
-                    {hall.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <div className="row m-3 p-3">
-            <div className="col px-5">
-              <input
-                type="checkbox"
-                id="multiple-projections"
-                checked={checked}
-                onChange={handleMultipleAtOnceChange}
-              />
-              <label className="ps-2" htmlFor="multiple-projections">
-                Add for multiple projections at once
-              </label>
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <div className="row m-3 p-3">
-            {!checked && (
+    <div
+      className="conatiner flex-grow-1 text-white"
+      style={{ backgroundColor: "var(--color-secondary)" }}
+    >
+      <div className="container-fluid m-5 p-5">
+        {error && <h3 className="text-danger">{error}</h3>}
+        <form>
+          <div className="form-group">
+            <div className="row m-3 p-3">
               <div className="col">
-                <label htmlFor="date">Projection date</label>
+                <label htmlFor="movieId">Select movie</label>
+                <select
+                  name="movieId"
+                  className="form-control"
+                  id="movieId"
+                  onChange={handleChange}
+                  required
+                >
+                  <option value={null}>---</option>
+                  {movies.map((movie) => (
+                    <option key={movie.id} value={movie.id}>
+                      {movie.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col">
+                <label htmlFor="hallId">Select hall</label>
+                <select
+                  name="hallId"
+                  className="form-control"
+                  id="hallId"
+                  onChange={handleChange}
+                  required
+                >
+                  <option value={null}>---</option>
+                  {halls.map((hall) => (
+                    <option key={hall.id} value={hall.id}>
+                      {hall.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="row m-3 p-3">
+              <div className="col px-5">
                 <input
-                  name="date"
-                  id="date"
-                  type="date"
+                  type="checkbox"
+                  id="multiple-projections"
+                  checked={checked}
+                  onChange={handleMultipleAtOnceChange}
+                />
+                <label className="ps-2" htmlFor="multiple-projections">
+                  Add for multiple projections at once
+                </label>
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="row m-3 p-3">
+              {!checked && (
+                <div className="col">
+                  <label htmlFor="date">Projection date</label>
+                  <input
+                    name="date"
+                    id="date"
+                    type="date"
+                    className="form-control"
+                    onChange={handleChange}
+                  ></input>
+                </div>
+              )}
+              {checked && (
+                <>
+                  <div className="col">
+                    <label htmlFor="from">From</label>
+                    <input
+                      name="from"
+                      id="from"
+                      type="date"
+                      className="form-control"
+                      onChange={handleChange}
+                    ></input>
+                  </div>
+                  <div className="col">
+                    <label htmlFor="to">To</label>
+                    <input
+                      name="to"
+                      id="to"
+                      type="date"
+                      className="form-control"
+                      onChange={handleChange}
+                    ></input>
+                  </div>
+                </>
+              )}
+              <div className="col">
+                <label htmlFor="time">Projection time</label>
+                <input
+                  name="time"
+                  type="time"
                   className="form-control"
                   onChange={handleChange}
                 ></input>
               </div>
-            )}
-            {checked && (
-              <>
-                <div className="col">
-                  <label htmlFor="from">From</label>
-                  <input
-                    name="from"
-                    id="from"
-                    type="date"
-                    className="form-control"
-                    onChange={handleChange}
-                  ></input>
-                </div>
-                <div className="col">
-                  <label htmlFor="to">To</label>
-                  <input
-                    name="to"
-                    id="to"
-                    type="date"
-                    className="form-control"
-                    onChange={handleChange}
-                  ></input>
-                </div>
-              </>
-            )}
-            <div className="col">
-              <label htmlFor="time">Projection time</label>
-              <input
-                name="time"
-                type="time"
-                className="form-control"
-                onChange={handleChange}
-              ></input>
             </div>
           </div>
-        </div>
-        <div className="text-center">
-          <button
-            onClick={handleFormSubmit}
-            type="submit"
-            className="btn btn-primary p-2 m-1"
-          >
-            Add projection
-          </button>
-        </div>
-      </form>
+          <div className="text-center">
+            <button
+              onClick={handleFormSubmit}
+              type="submit"
+              className="btn btn-primary p-2 m-1"
+            >
+              Add projection
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

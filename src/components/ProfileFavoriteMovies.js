@@ -27,7 +27,7 @@ function ProfileFavoriteMovies({ object }) {
 
   return (
     <div
-      className="container-fluid"
+      className="container-fluid flex-grow-1"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
       <h1 className="text-white ms-5 ps-5 pt-3">Favorite movies</h1>

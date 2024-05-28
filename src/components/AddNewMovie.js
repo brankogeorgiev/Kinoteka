@@ -1,17 +1,14 @@
 import classes from "./LoginForm.module.css";
 import { projectFirestore } from "../firebase/config.js";
+import firebase from "firebase/app";
 import { Form, useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
 
 function AddNewMovie({ movie, movieIsEdited }) {
-  // const [showList, setShowList] = useState(false);
-  // const [foundMovies, setFoundMovies] = useState([]);
-  // const [allMovies, setAllMovies] = useState([]);
-  // const [posterImage, setPosterImage] = useState("");
-  // const searchMovie = useRef();
   const title = useRef();
   const director = useRef();
   const genre = useRef();
+  const releaseDate = useRef();
   const durationTime = useRef();
   const poster = useRef();
   const trailer = useRef();
@@ -21,88 +18,21 @@ function AddNewMovie({ movie, movieIsEdited }) {
   const thirdActor = useRef();
   const fourthActor = useRef();
   const otherActors = useRef();
-  const navigate = useNavigate();
+
+  const timestamp = movie ? movie.releaseDate : null;
+  const releaseDateString = timestamp
+    ? timestamp.toDate().toISOString().split("T")[0]
+    : "";
+
   const { movieId } = useParams();
-
-  // !!!!!!
-  // let temp = ["Actor 1", "Actor 2", "Actor 3", null, undefined];
-  // console.log(temp.filter((a) => !!a).join(", "));
-
-  // const getMovieRequest = async (title) => {
-  //   const url = `http://www.omdbapi.com/?apikey=a23377fa&s=${title}`;
-  //   const response = await fetch(url);
-  //   const responseJson = await response.json();
-  //   setFoundMovies(responseJson.Search);
-
-  //   const url = "https://imdb-top-100-movies.p.rapidapi.com/";
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       "X-RapidAPI-Key": "4050ac13b7msh3f918726f575273p162423jsnf3b9e54e246d",
-  //       "X-RapidAPI-Host": "imdb-top-100-movies.p.rapidapi.com",
-  //       "X-RapidAPI-Key": "2955d96859msh0d9ee98f60560d9p1d0645jsnd52a980b9241",
-  //       "X-RapidAPI-Host": "imdb-top-100-movies.p.rapidapi.com",
-  //     },
-  //   };
-
-  //   try {
-  //     const response = await fetch(url, options);
-  //     const result = await response.json();
-  //     setAllMovies(result);
-  //     const response = await fetch(url);
-  //     const responseJson = await response.json();
-  //     setAllMovies(responseJson.Search);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // function handleMovieSearch(e) {
-  //   const value = e.target.value;
-  //   if (value.length >= 3) {
-  //     console.log(allMovies);
-  //     getMovieRequest(value);
-  //     setFoundMovies(
-  //       allMovies.filter((m) =>
-  //         m.Title.toLowerCase().includes(value.toLowerCase())
-  //       )
-  //     );
-  //   }
-  // }
-
-  // function handleClick(m) {
-  //   console.log(m);
-  //   title.current.value = m.Title;
-  //   poster.current.value = m.Poster;
-  //   description.current.value = m.description;
-  //   searchMovie.current.value = m.Title;
-
-  //   const selectedGenres = Array.isArray(m.genre) ? m.genre : [m.genre];
-  //   const genreOptions = genre.current.options;
-  //   let genreOptionsList = [];
-
-  //   for (let i = 0; i < genreOptions.length; i++) {
-  //     genreOptionsList.push(genreOptions[i].value);
-  //   }
-
-  //   for (let j = 0; j < selectedGenres.lenght; j++) {
-  //     console.log(selectedGenres[j]);
-  //   }
-
-  //   for (let i = 0; i < genreOptions.length; i++) {
-  //     if (selectedGenres.includes(genreOptions[i].value)) {
-  //       genreOptions[i].selected = true;
-  //     } else {
-  //       genreOptions[i].selected = false;
-  //     }
-  //   }
-
-  //   setPosterImage(m.Poster);
-  //   setShowList(false);
-  // }
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const releaseDateTemp = new Date(releaseDate.current.value);
+    const releaseDateParsed =
+      firebase.firestore.Timestamp.fromDate(releaseDateTemp);
 
     const actors = [
       mainActor ? mainActor.current.value : null,
@@ -112,16 +42,26 @@ function AddNewMovie({ movie, movieIsEdited }) {
       ...otherActors.current.value.split(", "),
     ];
 
+    const duration = durationTime.current.value;
+    let priceToSend = 0;
+    if (duration < 120) priceToSend = 200;
+    else if (120 < duration && duration < 150) priceToSend = 250;
+    else priceToSend = 300;
+
     const movieToSend = {
       title: title.current.value,
       director: director.current.value,
       genre: Array.from(genre.current.selectedOptions).map((opt) => opt.value),
-      durationTime: durationTime.current.value,
+      durationTime: duration,
       poster: poster.current.value,
       trailer: trailer.current.value,
       description: description.current.value,
       actors: actors.filter((a) => !!a),
       projections: [],
+      reviews: [],
+      releaseDate: releaseDateParsed,
+      price: priceToSend,
+      rating: Math.floor(Math.random() * 100) / 10,
     };
 
     if (movieIsEdited) {
@@ -134,15 +74,16 @@ function AddNewMovie({ movie, movieIsEdited }) {
           genre: Array.from(genre.current.selectedOptions).map(
             (opt) => opt.value
           ),
-          durationTime: durationTime.current.value,
+          durationTime: duration,
           poster: poster.current.value,
           trailer: trailer.current.value,
           description: description.current.value,
           actors: actors.filter((a) => !!a),
+          releaseDate: releaseDateParsed,
+          price: priceToSend,
         });
       navigate("/admin/movies");
     } else {
-      console.log("Adding");
       try {
         await projectFirestore.collection("movies").add(movieToSend);
         navigate("/admin/movies");
@@ -152,80 +93,6 @@ function AddNewMovie({ movie, movieIsEdited }) {
     }
   };
 
-  async function handleAddHall() {
-    try {
-      await projectFirestore
-        .collection("halls")
-        .doc("hall3")
-        .set({
-          name: "Hall 3",
-          rows: [
-            {
-              row: 1,
-              seats: [
-                { seat: 1, reserved: false },
-                { seat: 2, reserved: false },
-                { seat: 3, reserved: false },
-                { seat: 4, reserved: false },
-                { seat: 5, reserved: false },
-              ],
-            },
-            {
-              row: 2,
-              seats: [
-                { seat: 1, reserved: false },
-                { seat: 2, reserved: false },
-                { seat: 3, reserved: false },
-                { seat: 4, reserved: false },
-                { seat: 5, reserved: false },
-              ],
-            },
-            {
-              row: 3,
-              seats: [
-                { seat: 1, reserved: false },
-                { seat: 2, reserved: false },
-                { seat: 3, reserved: false },
-                { seat: 4, reserved: false },
-                { seat: 5, reserved: false },
-              ],
-            },
-            {
-              row: 4,
-              seats: [
-                { seat: 1, reserved: false },
-                { seat: 2, reserved: false },
-                { seat: 3, reserved: false },
-                { seat: 4, reserved: false },
-                { seat: 5, reserved: false },
-              ],
-            },
-            {
-              row: 5,
-              seats: [
-                { seat: 1, reserved: false },
-                { seat: 2, reserved: false },
-                { seat: 3, reserved: false },
-                { seat: 4, reserved: false },
-                { seat: 5, reserved: false },
-              ],
-            },
-          ],
-        });
-      console.log("Hall added successfully");
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  // function handleSearchFocus() {
-  //   setShowList(true);
-  // }
-
-  // function handleSearchBlur() {
-  //   setShowList(false);
-  // }
-
   return (
     <>
       <div className={classes.outer}>
@@ -234,39 +101,16 @@ function AddNewMovie({ movie, movieIsEdited }) {
             {movieIsEdited ? "Edit movie" : "Add a new movie"}
           </h1>
           <Form action="#" onSubmit={handleSubmit}>
-            {/* {!movieIsEdited && (
-              <div className={classes.form_row}>
-                <div className={classes.input_data}>
-                  <input
-                    type="text"
-                    required
-                    ref={searchMovie}
-                    onChange={handleMovieSearch}
-                    onFocus={handleSearchFocus}
-                    onBlur={handleSearchBlur}
-                  />
-                  <div className={classes.underline}></div>
-                  <label htmlFor="">Search for a movie...</label>
-                  {showList && foundMovies && foundMovies.length && (
-                    <ul className={classes.movies_list}>
-                      {foundMovies.map((m) => (
-                        <li onClick={() => handleClick(m)} key={m.imdbID}>
-                          {m.Title}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-                <div className={classes.input_data}>
-                  <img
-                    style={{ width: "5rem", height: "auto" }}
-                    src={posterImage}
-                  />
-                </div>
-              </div>
-            )} */}
-
             <div className={classes.form_row}>
+              {/* {poster.current && poster.current.value && (
+                <div className={classes.input_data} style={{ width: "10rem" }}>
+                  <img
+                    height="150"
+                    alt="Poster picture"
+                    src={poster.current.value}
+                  />
+                </div>
+              )} */}
               <div className={classes.input_data}>
                 <input
                   type="text"
@@ -319,6 +163,17 @@ function AddNewMovie({ movie, movieIsEdited }) {
                 />
                 <div className={classes.underline}></div>
                 <label htmlFor="">Duration time</label>
+              </div>
+              <div className={classes.input_data}>
+                <input
+                  type="date"
+                  required
+                  ref={releaseDate}
+                  defaultValue={releaseDateString}
+                  // onChange={(e) => setDurationTime(e.target.value)}
+                />
+                <div className={classes.underline}></div>
+                <label>Release Date</label>
               </div>
             </div>
             <div className={classes.form_row}>
@@ -435,7 +290,7 @@ function AddNewMovie({ movie, movieIsEdited }) {
               </div>
             </div>
           </Form>
-          <button onClick={handleAddHall}>Add New Hall</button>
+          {/* <button onClick={handleAddHall}>Add New Hall</button> */}
         </div>
       </div>
     </>

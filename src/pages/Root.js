@@ -3,10 +3,11 @@ import MainNavigation from "../components/MainNavigation";
 import TopBanner from "../components/TopBanner";
 import { useEffect } from "react";
 import { getTokenDuration } from "../util/auth";
+import Footer from "./Footer";
 
 function RootLayout() {
-  const { token } = useLoaderData();
-  const submit = useSubmit();
+  // const { token } = useLoaderData();
+  // const submit = useSubmit();
 
   // useEffect(() => {
   //   if (!token) {
@@ -27,13 +28,14 @@ function RootLayout() {
   // }, [token, submit]);
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <TopBanner />
       <MainNavigation />
-      <main>
+      <main className="d-flex flex-column flex-grow-1">
         <Outlet />
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }
 

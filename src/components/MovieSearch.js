@@ -30,7 +30,7 @@ function MovieSearch({ movies }) {
   };
 
   return (
-    <div className={classes.search_container}>
+    <div className={classes.search_container + " flex-grow-1"}>
       <h4>Search movies</h4>
       <div className={classes.input_field}>
         <FaSearch />

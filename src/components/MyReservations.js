@@ -22,7 +22,7 @@ function MyReservations({ object }) {
 
   return (
     <div
-      className="container-fluid p-4 row"
+      className="container-fluid d-flex flex-grow-1 p-4 row"
       style={{ backgroundColor: "var(--color-secondary)" }}
       key={crypto.randomUUID()}
     >

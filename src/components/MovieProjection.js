@@ -15,28 +15,22 @@ function MovieProjection({ movieProjection }) {
   const navigate = useNavigate();
   const hall = movieProjection.hall;
 
-  console.log(movieProjection);
-
   useEffect(() => {
     fetchUser(uid);
   }, []);
 
+  useEffect(() => {
+    if (movieProjection) {
+      getMovie(movieProjection.movie);
+    }
+  }, [movieProjection]);
+
   async function fetchUser(uid) {
     try {
-      await projectFirestore
-        .collection("users")
-        .doc(uid)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            // console.log(doc);
-            const userToSet = {
-              ...doc.data(),
-              id: uid,
-            };
-            setUser(userToSet);
-          }
-        });
+      const doc = await projectFirestore.collection("users").doc(uid).get();
+      if (doc.exists) {
+        setUser({ ...doc.data(), id: uid });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -44,27 +38,19 @@ function MovieProjection({ movieProjection }) {
 
   async function getMovie(movieId) {
     try {
-      await projectFirestore
+      const doc = await projectFirestore
         .collection("movies")
         .doc(movieId)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            setMovie({ ...doc.data(), id: movieId });
-          } else {
-            console.log("Could not find that movie");
-          }
-        });
+        .get();
+      if (doc.exists) {
+        setMovie({ ...doc.data(), id: movieId });
+      } else {
+        console.log("Could not find that movie");
+      }
     } catch (err) {
       console.log(err);
     }
   }
-
-  useEffect(() => {
-    if (movieProjection) {
-      getMovie(movieProjection.movie);
-    }
-  }, [movieProjection]);
 
   function handleSeatClicked(rowIndex, seatIndex) {
     let seat = hall.rows[rowIndex].seats[seatIndex];
@@ -171,17 +157,17 @@ function MovieProjection({ movieProjection }) {
         .update({
           reservations: [...user.reservations, reservation],
         });
+
+      navigate("/profile/my-reservations/" + reservation.id);
     } catch (err) {
       console.log(err);
     }
-
-    window.location.reload();
   }
 
   return (
     <>
       {movie && (
-        <div>
+        <div className="container-fluid flex-grow-1 text-center">
           <h1>{movie.title}</h1>
           <div className={classes.inputSeats}>
             <div className={classes.labelNumOfSeats}>Number of seats: </div>

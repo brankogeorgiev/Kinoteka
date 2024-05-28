@@ -1,0 +1,29 @@
+.home_button {
+  background-color: var(--color-secondary);
+  border-radius: 50px;
+  padding: 0 1rem;
+  padding: 1rem;
+  color: white;
+  border: 2px solid white;
+  font-weight: bold;
+  line-height: 1rem;
+}
+
+.home_button:hover {
+  background-color: white;
+  color: var(--color-secondary);
+  box-shadow: 0 0 7px 0 white;
+  transition: box-shadow 1sec;
+}
+
+.page_not_found div {
+  margin: 0.5rem;
+}
+
+.page_not_found svg {
+  font-size: 5rem;
+}
+
+.page_not_found h3 {
+  font-family: "Arial Black", Arial, sans-serif;
+}

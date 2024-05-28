@@ -7,13 +7,35 @@ import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { getUID } from "../util/auth";
 
 function MovieDetails({ movie }) {
-  const [halls, setHalls] = useState([]);
   const { token } = useRouteLoaderData("root");
+  const [halls, setHalls] = useState([]);
   const [user, setUser] = useState({});
   const [isMovieFavorite, setIsMovieFavorite] = useState(false);
+  const [movieProjectionsToShow, setMovieProjectionsToShow] = useState([]);
+  const movieRating =
+    movie.reviews.length !== 0
+      ? (
+          movie.reviews
+            .map((rev) => rev.rating)
+            .reduce((acc, curr) => acc + curr, 0) / movie.reviews.length
+        ).toFixed(1)
+      : movie.rating;
+
+  const now = new Date();
+  const movieProjections = movie.projections.filter(
+    (mov) =>
+      mov.time.seconds * 1000 + mov.time.nanoseconds / 1000000 >= now.getTime()
+  );
+  const movieProjectionsSorted = movieProjections.sort(
+    (a, b) =>
+      a.time.seconds * 1000 +
+      a.time.nanoseconds / 1000000 -
+      (b.time.seconds * 1000 + b.time.nanoseconds / 1000000)
+  );
 
   useEffect(() => {
     loadUser();
+    setMovieProjectionsToShow(movieProjectionsSorted);
   }, []);
 
   useEffect(() => {
@@ -158,7 +180,7 @@ function MovieDetails({ movie }) {
                     </div>
                   </td>
                   <td>
-                    {movie.rating} <MdStar />
+                    {movieRating} <MdStar />
                   </td>
                 </tr>
                 <tr>
@@ -180,37 +202,8 @@ function MovieDetails({ movie }) {
                 </tr>
               </tbody>
             </table>
-            {/* <div className={classes.movie_informations}>
-              <div className={classes.movie_label}>
-                <div>Movie Director:</div> {movie.director}
-              </div>
-              <div className={classes.movie_label}>
-                <div>Movie Duration:</div> {movie.durationTime} min
-              </div>
-              <div className={classes.movie_label}>
-                <div>Movie Description:</div> {movie.description}
-              </div>
-              <div className={classes.movie_label}>
-                <div>Movie Rating:</div> {movie.rating}
-              </div>
-              <div className={classes.movie_label}>
-                <div>Release Date:</div>{" "}
-                {new Date(
-                  movie.releaseDate.seconds * 1000 +
-                    movie.releaseDate.nanoseconds / 1000000
-                ).toLocaleDateString("en-UK", {
-                  year: "numeric",
-                  month: "long",
-                  day: "2-digit",
-                })}
-              </div>
-              <div className={classes.movie_label}>
-                <div>Actors:</div>{" "}
-                {movie.actors ? movie.actors.join(", ") : "No actors to show!"}
-              </div>
-            </div> */}
           </div>
-          {movie.projections.length > 0 && (
+          {movieProjectionsToShow.length > 0 && (
             <div>
               <table className="table">
                 <thead>
@@ -222,7 +215,7 @@ function MovieDetails({ movie }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {movie.projections.map((pr, index) => {
+                  {movieProjectionsToShow.map((pr, index) => {
                     const time = pr.time;
                     let date = new Date(
                       time.seconds * 1000 + time.nanoseconds / 1000000
@@ -255,7 +248,7 @@ function MovieDetails({ movie }) {
                           {getHallName(pr.hall)}
                         </td>
                         <td className="col text-center">
-                          <Link to={`/movies/${movie.id}/${pr.hall}/${date}`}>
+                          <Link to={`/movies/${movie.id}/${pr.hall}/${pr.id}`}>
                             Reserve your tickets
                           </Link>
                         </td>

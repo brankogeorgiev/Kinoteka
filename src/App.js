@@ -41,6 +41,7 @@ import ReservationsPage, {
 import ReservationDetailPage, {
   loader as loadReservationFirebase,
 } from "./pages/ReservationDetailPage.js";
+import AccessDeniedPage from "./pages/AccessDeniedPage.js";
 
 const router = createBrowserRouter([
   {
@@ -76,7 +77,7 @@ const router = createBrowserRouter([
                 element: <MovieDetailPage />,
               },
               {
-                path: ":hallId/:timestamp",
+                path: ":hallId/:projectionId",
                 id: "movie-projection",
                 element: <MovieProjectionPage />,
                 loader: movieProjectionLoader,
@@ -178,6 +179,10 @@ const router = createBrowserRouter([
       {
         path: "logout",
         action: logoutAction,
+      },
+      {
+        path: "access-denied",
+        element: <AccessDeniedPage />,
       },
     ],
   },

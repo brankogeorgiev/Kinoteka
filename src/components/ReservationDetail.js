@@ -3,14 +3,22 @@ import { projectFirestore } from "../firebase/config";
 import { FaCartShopping } from "react-icons/fa6";
 import { getUID } from "../util/auth";
 import { useNavigate } from "react-router-dom";
+import { Button, Form, Modal } from "react-bootstrap";
+import { FaRegStar } from "react-icons/fa";
+import classes from "./ReservationDetail.module.css";
 
 function ReservationDetail({ reservation }) {
   const [movie, setMovie] = useState({});
   const [hall, setHall] = useState({});
-  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
   const [passedReservation, setPassedReservation] = useState(false);
-
-  console.log(reservation);
+  const [numOfStars, setNumOfStars] = useState(0);
+  const [reviewDescription, setReviewDescription] = useState("");
+  const [hasReviewed, setHasReviewed] = useState(false);
+  const [reviewError, setReviewError] = useState(false);
+  const [review, setReview] = useState(false);
+  const uid = getUID();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const nowTemp = new Date();
@@ -22,6 +30,23 @@ function ReservationDetail({ reservation }) {
     loadHallFromFirebase(reservation.hall);
     checkReservationDay();
   }, []);
+
+  useEffect(() => {
+    if (movie && movie.reviews) {
+      const checker = movie.reviews.some((mov) => uid === mov.uid);
+      setHasReviewed(!checker);
+      const reviewTemp = movie.reviews.find((mov) => mov.uid === uid);
+      console.log(reviewTemp);
+      setReview(reviewTemp);
+    }
+  }, [movie]);
+
+  useEffect(() => {
+    console.log(review);
+  }, [review]);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const date = reservation.time.toDate();
   const reservationDayShort = date.toDateString().split(" ")[0];
@@ -144,9 +169,41 @@ function ReservationDetail({ reservation }) {
     navigate("/profile/my-reservations");
   }
 
+  async function handleReviewHandler() {
+    if (reviewDescription.length < 50) {
+      setReviewError(true);
+      return;
+    }
+
+    setReviewError(false);
+
+    const review = {
+      rating: numOfStars,
+      uid: uid,
+      description: reviewDescription,
+    };
+
+    const movieReviews = movie.reviews;
+    movieReviews.push(review);
+
+    await projectFirestore.collection("movies").doc(movie.id).update({
+      reviews: movieReviews,
+    });
+
+    setReviewDescription("");
+    setNumOfStars(0);
+    handleClose();
+
+    window.location.reload();
+  }
+
+  const handleChange = (event) => {
+    setReviewDescription(event.target.value);
+  };
+
   return (
     <div
-      className="container-fluid p-4"
+      className="container-fluid flex-grow-1 p-4"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
       {passedReservation && (
@@ -174,8 +231,102 @@ function ReservationDetail({ reservation }) {
           <hr />
           <div className="row px-3 text-white">
             <div className="fs-5">Total Price</div>
-            <div className="text-secondary">xxx,xx MKD</div>
+            <div className="text-secondary">
+              {movie.price
+                ? (reservation.seats.length * movie.price)
+                    .toFixed(2)
+                    .replace(".", ",")
+                : ""}{" "}
+              MKD
+            </div>
           </div>
+          {hasReviewed && (
+            <>
+              <hr />
+              <div className="row w-50 m-auto">
+                <Button variant="success" onClick={handleShow}>
+                  Review
+                </Button>
+
+                <Modal className="mt-5" show={show} onHide={handleClose}>
+                  <Modal.Header
+                    className="text-white"
+                    style={{ backgroundColor: "var(--color-secondary)" }}
+                    closeButton
+                  >
+                    <Modal.Title>Rate this movie</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body
+                    className="text-white"
+                    style={{ backgroundColor: "var(--color-secondary)" }}
+                  >
+                    <Form>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlInput1"
+                      >
+                        <Form.Label className="d-flex justify-content-between">
+                          <span>Movie Grade</span> <span>{numOfStars}/10</span>
+                        </Form.Label>
+                        <div className="fs-1 d-flex justify-content-center">
+                          {[...Array(10)].map((_, index) => (
+                            <FaRegStar
+                              key={index}
+                              className={
+                                numOfStars >= index + 1
+                                  ? classes.selectedStar + " mx-1"
+                                  : "mx-1"
+                              }
+                              onClick={() => setNumOfStars(index + 1)}
+                            />
+                          ))}
+                        </div>
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                      >
+                        <Form.Label>Describe your review</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          value={reviewDescription}
+                          onChange={handleChange}
+                        />
+                        {reviewError && (
+                          <p className="pt-3 px-3 text-danger">
+                            Please enter at least 50 characters in the
+                            description field.
+                          </p>
+                        )}
+                      </Form.Group>
+                    </Form>
+                  </Modal.Body>
+                  <Modal.Footer
+                    className="text-white"
+                    style={{ backgroundColor: "var(--color-secondary)" }}
+                  >
+                    <Button variant="danger" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button variant="success" onClick={handleReviewHandler}>
+                      Submit Review
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              </div>
+            </>
+          )}
+          {!hasReviewed && review && (
+            <>
+              <hr />
+              <div class="d-flex justify-content-center">
+                <div class="btn btn-warning w-75">
+                  Already reviewed {review.rating}/10
+                </div>
+              </div>
+            </>
+          )}
         </div>
       )}
       {!passedReservation && (
@@ -213,25 +364,36 @@ function ReservationDetail({ reservation }) {
             </div>
           </div>
           <hr />
-          <div className="row px-5">
-            <div className="d-inline-block col-6 text-start">Tickets:</div>
-            <div className="d-inline-block col-6 text-end">
-              {reservation.seats.length} X xxx,xx MKD
+          {movie && (
+            <div className="row px-5">
+              <div className="d-inline-block col-6 text-start">Tickets:</div>
+              <div className="d-inline-block col-6 text-end">
+                {reservation.seats.length} x{" "}
+                {movie.price ? movie.price.toFixed(2).replace(".", ",") : ""}{" "}
+                MKD
+              </div>
             </div>
-          </div>
+          )}
           <hr />
-          <div className="row px-5">
-            <div className="d-inline-block col-6 text-start">
-              <FaCartShopping
-                className="fs-5"
-                style={{ color: "var(--color-third)" }}
-              />{" "}
-              Total Price:
+          {movie && (
+            <div className="row px-5">
+              <div className="d-inline-block col-6 text-start">
+                <FaCartShopping
+                  className="fs-5"
+                  style={{ color: "var(--color-third)" }}
+                />{" "}
+                Total Price:
+              </div>
+              <div className="d-inline-block col-6 text-end fw-bold fs-5">
+                {movie.price
+                  ? (reservation.seats.length * movie.price)
+                      .toFixed(2)
+                      .replace(".", ",")
+                  : ""}{" "}
+                MKD
+              </div>
             </div>
-            <div className="d-inline-block col-6 text-end fw-bold fs-5">
-              xxx,xx MKD
-            </div>
-          </div>
+          )}
           <hr />
           <div className="row px-5">
             <button
@@ -247,5 +409,15 @@ function ReservationDetail({ reservation }) {
     </div>
   );
 }
+
+// {[...Array(6)].map((_, index) => (
+//   <LuArmchair
+//     key={index}
+//     className={
+//       numOfSeats >= index + 1 ? classes.selectedSeat : ""
+//     }
+//     onClick={() => setNumOfSeats(index + 1)}
+//   />
+// ))}
 
 export default ReservationDetail;
