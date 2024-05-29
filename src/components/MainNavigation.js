@@ -33,22 +33,6 @@ function MainNavigation() {
                   My Profile
                 </NavLink>
               )}
-              {token && (
-                <NavLink
-                  to="/profile/favorite-movies"
-                  className={classes.list_item}
-                >
-                  Favourites
-                </NavLink>
-              )}
-              {token && (
-                <NavLink
-                  to="/profile/my-reservations"
-                  className={classes.list_item}
-                >
-                  My Tickets
-                </NavLink>
-              )}
               {isAdmin && (
                 <NavLink to="/admin/movies" className={classes.list_item}>
                   Admin Page

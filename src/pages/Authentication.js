@@ -28,12 +28,15 @@ export async function action({ request }) {
   let userCredential;
 
   if (type === "signup") {
-    authData.firstName = data.get("firstName");
-    authData.lastName = data.get("lastName");
-    authData.username = data.get("username");
-    authData.dateOfBirth = data.get("dateOfBirth");
-    authData.gender = data.get("gender");
-    authData.role = data.get("role");
+    authData.firstName = data.get("firstName") || "";
+    authData.lastName = data.get("lastName") || "";
+    authData.dateOfBirth = data.get("dateOfBirth") || "";
+    authData.gender = data.get("gender") || "";
+    authData.role = data.get("role") || "";
+    authData.phoneNumber = data.get("phoneNumber") || "";
+    authData.country = data.get("country") || "";
+    authData.city = data.get("city") || "";
+    authData.address = data.get("address") || "";
 
     try {
       userCredential = await auth.createUserWithEmailAndPassword(

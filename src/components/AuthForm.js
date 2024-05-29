@@ -6,7 +6,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-function AuthForm({ onSubmit, error }) {
+function AuthForm() {
   const data = useActionData();
   const navigation = useNavigation();
 
@@ -46,12 +46,24 @@ function AuthForm({ onSubmit, error }) {
               <input type="text" id="lastName" name="lastName" />
             </p>
             <p>
-              <label htmlFor="username">Username</label>
-              <input type="text" id="username" name="username" />
-            </p>
-            <p>
               <label htmlFor="dateOfBirth">Date of Birth</label>
               <input type="date" id="dateOfBirth" name="dateOfBirth" />
+            </p>
+            <p>
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input type="text" id="phoneNumber" name="phoneNumber" />
+            </p>
+            <p>
+              <label htmlFor="country">Country</label>
+              <input type="text" id="country" name="country" />
+            </p>
+            <p>
+              <label htmlFor="city">City</label>
+              <input type="text" id="city" name="city" />
+            </p>
+            <p>
+              <label htmlFor="address">Address</label>
+              <input type="text" id="address" name="address" />
             </p>
             <input type="hidden" value="ROLE_USER" name="role" id="role" />
             <div>
