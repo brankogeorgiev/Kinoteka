@@ -42,6 +42,9 @@ import ReservationDetailPage, {
   loader as loadReservationFirebase,
 } from "./pages/ReservationDetailPage.js";
 import AccessDeniedPage from "./pages/AccessDeniedPage.js";
+import ComingSoonPage from "./pages/ComingSoonPage.js";
+import CinemaDetailsPage from "./pages/CinemaDetailsPage.js";
+import MyProfilePage from "./pages/MyProfilePage.js";
 
 const router = createBrowserRouter([
   {
@@ -145,7 +148,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <div>Hello</div>,
+            element: <MyProfilePage />,
           },
           {
             path: "favorite-movies",
@@ -170,6 +173,19 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: "coming-soon",
+        element: <ComingSoonPage />,
+        loader: moviesLoader,
+      },
+      // {
+      //   path: "profile",
+      //   // loader: moviesLoader,
+      // },
+      {
+        path: "cinema-details",
+        element: <CinemaDetailsPage />,
       },
       {
         path: "search",

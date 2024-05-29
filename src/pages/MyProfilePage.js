@@ -1,9 +1,9 @@
 import { Await } from "react-router-dom";
 import { Suspense } from "react";
-import AccessDenied from "../components/AccessDenied";
+import MyProfile from "../components/MyProfile";
 import { tailChase } from "ldrs";
 
-function AccessDeniedPage() {
+function MyProfilePage() {
   tailChase.register();
 
   return (
@@ -23,9 +23,10 @@ function AccessDeniedPage() {
         </p>
       }
     >
-      <Await>{() => <AccessDenied />}</Await>
+      {" "}
+      <Await>{() => <MyProfile />}</Await>
     </Suspense>
   );
 }
 
-export default AccessDeniedPage;
+export default MyProfilePage;

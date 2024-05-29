@@ -3,12 +3,30 @@ import { Await, defer, useLoaderData } from "react-router-dom";
 import ReservationDetail from "../components/ReservationDetail";
 import { projectFirestore } from "../firebase/config";
 import { getUID } from "../util/auth";
+import { tailChase } from "ldrs";
 
 function ReservationDetailPage() {
   const { reservation } = useLoaderData();
+  tailChase.register();
 
   return (
-    <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+    <Suspense
+      fallback={
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "15rem",
+          }}
+        >
+          <l-tail-chase
+            size="75"
+            speed="2"
+            color="var(--color-third)"
+          ></l-tail-chase>
+        </p>
+      }
+    >
+      {" "}
       <Await resolve={reservation}>
         {(loadedReservation) => (
           <ReservationDetail reservation={loadedReservation} />

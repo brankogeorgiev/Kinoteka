@@ -10,7 +10,6 @@ function MainContent(props) {
 
   return (
     <div>
-      {/* <CarouselComponent images={images} /> */}
       <Carousel images={images} />
       <Gallery movies={props.movies} />
     </div>

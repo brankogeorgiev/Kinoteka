@@ -22,14 +22,14 @@ function MainNavigation() {
               <NavLink to="/movies" className={classes.list_item}>
                 In Cinema
               </NavLink>
-              <NavLink to="/" className={classes.list_item}>
+              <NavLink to="/coming-soon" className={classes.list_item}>
                 Coming Soon
               </NavLink>
-              <NavLink to="/" className={classes.list_item}>
+              <NavLink to="/cinema-details" className={classes.list_item}>
                 Cinema Details
               </NavLink>
               {token && (
-                <NavLink to="/" className={classes.list_item}>
+                <NavLink to="/profile" className={classes.list_item}>
                   My Profile
                 </NavLink>
               )}
@@ -58,11 +58,6 @@ function MainNavigation() {
                 <NavLink to="/halls" className={classes.list_item}>
                   Halls
                 </NavLink>
-              )}
-              {token && (
-                <Form action="/logout" method="post">
-                  <button>Logout</button>
-                </Form>
               )}
             </div>
           </li>

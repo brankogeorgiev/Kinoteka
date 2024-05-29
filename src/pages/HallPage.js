@@ -2,13 +2,31 @@ import { Suspense, useState } from "react";
 import Hall from "../components/Hall";
 import { Await, defer, useRouteLoaderData } from "react-router-dom";
 import { projectFirestore } from "../firebase/config";
+import { tailChase } from "ldrs";
 
 function HallPage() {
   const { hall } = useRouteLoaderData("hall-info");
+  tailChase.register();
 
   return (
     <>
-      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+      <Suspense
+        fallback={
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "15rem",
+            }}
+          >
+            <l-tail-chase
+              size="75"
+              speed="2"
+              color="var(--color-third)"
+            ></l-tail-chase>
+          </p>
+        }
+      >
+        {" "}
         <Await resolve={hall}>
           {(loadedHall) => <Hall hall={loadedHall} />}
         </Await>

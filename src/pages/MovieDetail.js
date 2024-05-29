@@ -2,30 +2,40 @@ import { Await, defer, useRouteLoaderData } from "react-router-dom";
 import { Suspense } from "react";
 import { projectFirestore } from "../firebase/config";
 import MovieDetails from "../components/MovieDetails";
+import { tailChase } from "ldrs";
 
 function MovieDetailPage() {
   const { movie } = useRouteLoaderData("movie-detail");
+  tailChase.register();
 
   return (
-    <>
-      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+    <d>
+      <Suspense
+        fallback={
+          <p
+            className="flex-grow-1"
+            style={{
+              textAlign: "center",
+              marginTop: "15rem",
+            }}
+          >
+            <l-tail-chase
+              size="75"
+              speed="2"
+              color="var(--color-third)"
+            ></l-tail-chase>
+          </p>
+        }
+      >
         <Await resolve={movie}>
           {(loadedMovie) => <MovieDetails movie={loadedMovie} />}
         </Await>
       </Suspense>
-    </>
+    </d>
   );
 }
 
 export default MovieDetailPage;
-
-// async function loadMovie(id) {
-//   const movies = await loadMoviesFirebase();
-
-//   const movie = movies.find((m) => m.id === id);
-//   console.log(movie);
-//   return movie;
-// }
 
 export async function loadMovieFirebase(id) {
   let movie;

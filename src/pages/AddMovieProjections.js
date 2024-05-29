@@ -2,13 +2,30 @@ import { Suspense } from "react";
 import { Await, defer, useRouteLoaderData } from "react-router-dom";
 import { projectFirestore } from "../firebase/config";
 import AddMovieProjection from "../components/AddMovieProjection";
+import { tailChase } from "ldrs";
 
 function AddMovieProjectionPage() {
   const { movieProjections } = useRouteLoaderData("add-movie-projection");
+  tailChase.register();
 
   return (
     <>
-      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+      <Suspense
+        fallback={
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "15rem",
+            }}
+          >
+            <l-tail-chase
+              size="75"
+              speed="2"
+              color="var(--color-third)"
+            ></l-tail-chase>
+          </p>
+        }
+      >
         <Await resolve={movieProjections}>
           {(loadedMovies) => <AddMovieProjection data={loadedMovies} />}
         </Await>

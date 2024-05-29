@@ -1,8 +1,6 @@
 import { Outlet, useLoaderData, useSubmit } from "react-router-dom";
 import MainNavigation from "../components/MainNavigation";
 import TopBanner from "../components/TopBanner";
-import { useEffect } from "react";
-import { getTokenDuration } from "../util/auth";
 import Footer from "./Footer";
 
 function RootLayout() {

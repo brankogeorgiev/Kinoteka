@@ -1,4 +1,9 @@
-import { NavLink, useNavigate, useRouteLoaderData } from "react-router-dom";
+import {
+  Form,
+  NavLink,
+  useNavigate,
+  useRouteLoaderData,
+} from "react-router-dom";
 import classes from "./TopBanner.module.css";
 import { IoPersonCircleOutline, IoSearch } from "react-icons/io5";
 
@@ -29,6 +34,11 @@ function TopBanner() {
           )}
           {token && <span>Hello {email}</span>}
         </li>
+        {token && (
+          <Form action="/logout" method="post">
+            <button>Logout</button>
+          </Form>
+        )}
       </ul>
     </section>
   );

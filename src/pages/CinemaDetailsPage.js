@@ -1,9 +1,9 @@
 import { Await } from "react-router-dom";
+import CinemaDetails from "../components/CinemaDetails";
 import { Suspense } from "react";
-import AccessDenied from "../components/AccessDenied";
 import { tailChase } from "ldrs";
 
-function AccessDeniedPage() {
+function CinemaDetailsPage() {
   tailChase.register();
 
   return (
@@ -23,9 +23,10 @@ function AccessDeniedPage() {
         </p>
       }
     >
-      <Await>{() => <AccessDenied />}</Await>
+      {" "}
+      <Await>{() => <CinemaDetails />}</Await>
     </Suspense>
   );
 }
 
-export default AccessDeniedPage;
+export default CinemaDetailsPage;

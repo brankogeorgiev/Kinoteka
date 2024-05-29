@@ -38,22 +38,6 @@ export default MovieProjectionPage;
 
 export async function loadMovieProjectionFirebase(id, projectionId, movieId) {
   let movieProjection = null;
-  // let timePieces = time.split(/-|T|\+/);
-  // const formattedTime = `${timePieces[2]}/${timePieces[1]}/${timePieces[0]}, ${timePieces[3]}`;
-
-  // console.log(formattedTime);
-  // timePieces[2] = timePieces[2].split("T");
-  // timePieces = timePieces.flat();
-  // timePieces[3] = timePieces[3].split("+")[0];
-
-  // const formattedTime =
-  //   timePieces[2] +
-  //   "/" +
-  //   timePieces[1] +
-  //   "/" +
-  //   timePieces[0] +
-  //   ", " +
-  //   timePieces[3];
 
   await projectFirestore
     .collection("hallOccupacy")

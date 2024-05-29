@@ -5,6 +5,7 @@ import { getUID } from "../util/auth";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Modal } from "react-bootstrap";
 import { FaRegStar } from "react-icons/fa";
+import firebase from "firebase/app";
 import classes from "./ReservationDetail.module.css";
 
 function ReservationDetail({ reservation }) {
@@ -14,6 +15,7 @@ function ReservationDetail({ reservation }) {
   const [passedReservation, setPassedReservation] = useState(false);
   const [numOfStars, setNumOfStars] = useState(0);
   const [reviewDescription, setReviewDescription] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
   const [hasReviewed, setHasReviewed] = useState(false);
   const [reviewError, setReviewError] = useState(false);
   const [review, setReview] = useState(false);
@@ -177,10 +179,15 @@ function ReservationDetail({ reservation }) {
 
     setReviewError(false);
 
+    const now = new Date();
+    const dateTime = firebase.firestore.Timestamp.fromDate(now);
+
     const review = {
       rating: numOfStars,
       uid: uid,
       description: reviewDescription,
+      title: reviewTitle,
+      dateTime: dateTime,
     };
 
     const movieReviews = movie.reviews;
@@ -191,6 +198,7 @@ function ReservationDetail({ reservation }) {
     });
 
     setReviewDescription("");
+    setReviewTitle("");
     setNumOfStars(0);
     handleClose();
 
@@ -199,6 +207,10 @@ function ReservationDetail({ reservation }) {
 
   const handleChange = (event) => {
     setReviewDescription(event.target.value);
+  };
+
+  const handleTitleChange = (event) => {
+    setReviewTitle(event.target.value);
   };
 
   return (
@@ -286,6 +298,18 @@ function ReservationDetail({ reservation }) {
                         className="mb-3"
                         controlId="exampleForm.ControlTextarea1"
                       >
+                        <Form.Label>Review Title</Form.Label>
+                        <Form.Control
+                          as="input"
+                          rows={3}
+                          value={reviewTitle}
+                          onChange={handleTitleChange}
+                        />
+                      </Form.Group>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="exampleForm.ControlTextarea1"
+                      >
                         <Form.Label>Describe your review</Form.Label>
                         <Form.Control
                           as="textarea"
@@ -322,7 +346,7 @@ function ReservationDetail({ reservation }) {
               <hr />
               <div class="d-flex justify-content-center">
                 <div class="btn btn-warning w-75">
-                  Already reviewed {review.rating}/10
+                  Thank you for your opinion. Review rating {review.rating}/10
                 </div>
               </div>
             </>
@@ -409,15 +433,5 @@ function ReservationDetail({ reservation }) {
     </div>
   );
 }
-
-// {[...Array(6)].map((_, index) => (
-//   <LuArmchair
-//     key={index}
-//     className={
-//       numOfSeats >= index + 1 ? classes.selectedSeat : ""
-//     }
-//     onClick={() => setNumOfSeats(index + 1)}
-//   />
-// ))}
 
 export default ReservationDetail;

@@ -4,7 +4,9 @@ import { Link, useRouteLoaderData } from "react-router-dom";
 import { projectFirestore } from "../firebase/config";
 import { MdStar } from "react-icons/md";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
+import { IoMdStar } from "react-icons/io";
 import { getUID } from "../util/auth";
+import { Card, Carousel } from "react-bootstrap";
 
 function MovieDetails({ movie }) {
   const { token } = useRouteLoaderData("root");
@@ -262,6 +264,64 @@ function MovieDetails({ movie }) {
           {movie.projections.length === 0 && (
             <h4 className="text-center">No scheduled projections for now.</h4>
           )}
+          <div className="container m-3">
+            <h3 className="text-warning p-3">User Reviews</h3>
+            {movie.reviews.length <= 0 && <p>No reviews for this movie.</p>}
+            {movie.reviews.length > 0 && (
+              <Carousel>
+                {movie.reviews.map((card, index) => {
+                  const date = card.dateTime.toDate().toLocaleDateString();
+                  const time = card.dateTime
+                    .toDate()
+                    .toLocaleTimeString()
+                    .split(":")
+                    .splice(0, 2)
+                    .join(":");
+
+                  return (
+                    <Carousel.Item key={index}>
+                      <Card
+                        className="p-1"
+                        style={{
+                          width: "25rem",
+                          height: "12.5rem",
+                          margin: "auto",
+                          overflow: "auto",
+                        }}
+                      >
+                        <Card.Header>
+                          <Card.Title className="p-1 fw-bold">
+                            {card.title}
+                          </Card.Title>
+                          <Card.Subtitle className="p-1 d-flex justify-content-between">
+                            <div className="d-inline-block">
+                              <IoMdStar className="text-warning fs-3" />{" "}
+                              <span
+                                style={{
+                                  margin: "auto",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                {card.rating} / 10{" "}
+                              </span>
+                            </div>
+                            <div className="d-inline-block my-auto">
+                              <span className="fw-bold">
+                                {date + ", " + time}
+                              </span>
+                            </div>
+                          </Card.Subtitle>
+                        </Card.Header>
+                        <Card.Body>
+                          <Card.Text>{card.description}</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Carousel.Item>
+                  );
+                })}
+              </Carousel>
+            )}
+          </div>
         </div>
       </div>
     </>

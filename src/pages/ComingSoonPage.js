@@ -1,9 +1,10 @@
-import { Await } from "react-router-dom";
+import { Await, useLoaderData } from "react-router-dom";
+import ComingSoon from "../components/ComingSoon";
 import { Suspense } from "react";
-import AccessDenied from "../components/AccessDenied";
 import { tailChase } from "ldrs";
 
-function AccessDeniedPage() {
+function ComingSoonPage() {
+  const { movies } = useLoaderData();
   tailChase.register();
 
   return (
@@ -23,9 +24,11 @@ function AccessDeniedPage() {
         </p>
       }
     >
-      <Await>{() => <AccessDenied />}</Await>
+      <Await resolve={movies}>
+        {(loadedMovies) => <ComingSoon movies={loadedMovies} />}
+      </Await>
     </Suspense>
   );
 }
 
-export default AccessDeniedPage;
+export default ComingSoonPage;

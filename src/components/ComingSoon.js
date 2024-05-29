@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
-import classes from "./MoviesList.module.css";
-import { IoTicket } from "react-icons/io5";
-import Dropdown from "react-bootstrap/Dropdown";
 import { useEffect, useState } from "react";
 import { projectFirestore } from "../firebase/config";
+import classes from "./MoviesList.module.css";
+import { Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-function MoviesList({ movies }) {
+function ComingSoon({ movies }) {
   const [shownMovies, setShownMovies] = useState([]);
   const [halls, setHalls] = useState([]);
 
@@ -13,9 +12,7 @@ function MoviesList({ movies }) {
     const now = new Date();
     fetchHalls();
     setShownMovies(
-      movies.filter(
-        (mov) => mov.releaseDate.toDate().getTime() <= now.getTime()
-      )
+      movies.filter((mov) => mov.releaseDate.toDate().getTime() > now.getTime())
     );
   }, [movies]);
 
@@ -70,9 +67,9 @@ function MoviesList({ movies }) {
   }
 
   return (
-    <div className={classes.movies_list}>
+    <div className={classes.movies_list + " flex-grow-1"}>
       <div className={classes.movies_list_inner}>
-        <h1 style={{ display: "inline-block" }}>All movies</h1>
+        <h1 style={{ display: "inline-block" }}>Coming Soon</h1>
         <div
           style={{
             display: "inline-block",
@@ -109,21 +106,39 @@ function MoviesList({ movies }) {
 
         <ul>
           {shownMovies.map((movie) => {
-            const now = new Date();
-            const nowTime = now.getTime();
-            const movieProjections = movie.projections
-              .filter(
-                (proj) =>
-                  proj.time.seconds * 1000 + proj.time.nanoseconds / 1000000 >=
-                  nowTime
-              )
-              .sort(
-                (a, b) =>
-                  a.time.seconds * 1000 +
-                  a.time.nanoseconds / 1000000 -
-                  (b.time.seconds * 1000 + b.time.nanoseconds / 1000000)
-              )
-              .splice(0, 3);
+            const date = movie.releaseDate
+              .toDate()
+              .toLocaleDateString()
+              .split("/");
+            const day = date[0];
+            const month = date[1];
+            const year = date[2];
+            let monthFullName = "";
+            if (month === "01") {
+              monthFullName = "January";
+            } else if (month === "02") {
+              monthFullName = "February";
+            } else if (month === "03") {
+              monthFullName = "March";
+            } else if (month === "04") {
+              monthFullName = "April";
+            } else if (month === "05") {
+              monthFullName = "May";
+            } else if (month === "06") {
+              monthFullName = "June";
+            } else if (month === "07") {
+              monthFullName = "July";
+            } else if (month === "08") {
+              monthFullName = "August";
+            } else if (month === "09") {
+              monthFullName = "September";
+            } else if (month === "10") {
+              monthFullName = "October";
+            } else if (month === "11") {
+              monthFullName = "November";
+            } else monthFullName = "December";
+
+            const fullDate = `${day} ${monthFullName} ${year}`;
 
             return (
               <li key={movie.id}>
@@ -142,47 +157,8 @@ function MoviesList({ movies }) {
                     </div>
                   </div>
                 </div>
-                <div className={classes.times}>
-                  {movieProjections.length !== 0 &&
-                    movieProjections.map((proj) => {
-                      const now = new Date();
-                      const nowDate = now.toLocaleDateString();
-                      const newProjDate = proj.time.toDate();
-                      const projDate = newProjDate.toLocaleDateString();
-                      const projTime = newProjDate.toLocaleTimeString();
-
-                      const day = nowDate === projDate ? "Today" : projDate;
-                      const time = projTime.split(":").splice(0, 2).join(":");
-
-                      const hall = halls.find((tmp) => tmp.id === proj.hall);
-
-                      let date = new Date(
-                        proj.time.seconds * 1000 +
-                          proj.time.nanoseconds / 1000000
-                      );
-                      date.setHours(date.getHours() + 2);
-                      date = encodeURIComponent(date.toISOString());
-                      date = date.split(".")[0] + "%2B02%3A00";
-
-                      return (
-                        <Link
-                          to={`/movies/${movie.id}/${proj.hall}/${proj.id}`}
-                        >
-                          <div key={crypto.randomUUID()}>
-                            <div className={classes.showtime}>
-                              <div>
-                                <span>{time}</span>{" "}
-                                <IoTicket style={{ color: "lightgreen" }} />
-                              </div>
-                              <div>{day}</div>
-                            </div>
-                            <div className={classes.showtime}>
-                              {hall && hall.name}
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                <div className="text-white my-auto text-right fw-bold">
+                  Premiere: {fullDate}
                 </div>
               </li>
             );
@@ -193,4 +169,4 @@ function MoviesList({ movies }) {
   );
 }
 
-export default MoviesList;
+export default ComingSoon;

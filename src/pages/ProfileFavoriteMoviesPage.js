@@ -3,13 +3,31 @@ import { Suspense } from "react";
 import { projectFirestore } from "../firebase/config";
 import { getUID, tokenLoader } from "../util/auth";
 import ProfileFavoriteMovies from "../components/ProfileFavoriteMovies";
+import { tailChase } from "ldrs";
 
 function ProfileFavoriteMoviesPage() {
   const { object } = useRouteLoaderData("favorite-movies");
+  tailChase.register();
 
   return (
     <>
-      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+      <Suspense
+        fallback={
+          <p
+            style={{
+              textAlign: "center",
+              marginTop: "15rem",
+            }}
+          >
+            <l-tail-chase
+              size="75"
+              speed="2"
+              color="var(--color-third)"
+            ></l-tail-chase>
+          </p>
+        }
+      >
+        {" "}
         <Await resolve={object}>
           {(loadedObject) => <ProfileFavoriteMovies object={loadedObject} />}
         </Await>
