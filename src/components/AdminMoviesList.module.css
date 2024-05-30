@@ -26,7 +26,7 @@
   max-width: 12.5rem;
   padding: 0.5rem;
   margin: 0.25rem 0 1.25rem 0;
-  background-color: var(--color-fifth);
+  /* background-color: var(--color-fifth); */
   border-radius: 0.5rem;
 }
 

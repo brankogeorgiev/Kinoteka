@@ -31,8 +31,10 @@ function MovieSearch({ movies }) {
 
   return (
     <div className={classes.search_container + " flex-grow-1"}>
-      <h4>Search movies</h4>
-      <div className={classes.input_field}>
+      <h4 className="fw-bold px-5" style={{ color: "var(--color-primary)" }}>
+        Search movies
+      </h4>
+      <div className={classes.input_field + " px-5"}>
         <FaSearch />
         <input
           type="text"
@@ -41,7 +43,7 @@ function MovieSearch({ movies }) {
           value={searchQuery}
         />
       </div>
-      <ul>
+      <ul className="px-5 m-3">
         {shownMovies &&
           shownMovies.map((mov) => (
             <li key={mov.id}>

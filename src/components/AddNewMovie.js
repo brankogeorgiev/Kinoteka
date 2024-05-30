@@ -11,6 +11,7 @@ function AddNewMovie({ movie, movieIsEdited }) {
   const releaseDate = useRef();
   const durationTime = useRef();
   const poster = useRef();
+  const image = useRef();
   const trailer = useRef();
   const description = useRef();
   const mainActor = useRef();
@@ -54,6 +55,7 @@ function AddNewMovie({ movie, movieIsEdited }) {
       genre: Array.from(genre.current.selectedOptions).map((opt) => opt.value),
       durationTime: duration,
       poster: poster.current.value,
+      image: image.current.value,
       trailer: trailer.current.value,
       description: description.current.value,
       actors: actors.filter((a) => !!a),
@@ -76,6 +78,7 @@ function AddNewMovie({ movie, movieIsEdited }) {
           ),
           durationTime: duration,
           poster: poster.current.value,
+          image: image.current.value,
           trailer: trailer.current.value,
           description: description.current.value,
           actors: actors.filter((a) => !!a),
@@ -243,6 +246,18 @@ function AddNewMovie({ movie, movieIsEdited }) {
                   type="text"
                   ref={poster}
                   defaultValue={movie ? movie.poster : ""}
+                  // onChange={(e) => setPoster(e.target.value)}
+                />
+                <div className={classes.underline}></div>
+                <label htmlFor="">Image URL</label>
+              </div>
+            </div>
+            <div className={classes.form_row}>
+              <div className={classes.input_data}>
+                <input
+                  type="text"
+                  ref={image}
+                  defaultValue={movie ? movie.image : ""}
                   // onChange={(e) => setPoster(e.target.value)}
                 />
                 <div className={classes.underline}></div>

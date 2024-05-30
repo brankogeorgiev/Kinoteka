@@ -20,7 +20,7 @@ function AccessDenied() {
       <div className="container text-white d-flex justify-content-center p-5">
         <div className={classes.page_not_found + " d-flex flex-column"}>
           <div className="text-center">
-            <h3>ERROR: 404 PAGE NOT FOUND</h3>
+            <h3>ERROR: ACCESS DENIED</h3>
           </div>
           <div className="text-center">
             <TbError404Off className="fs-1 text-secondary" />

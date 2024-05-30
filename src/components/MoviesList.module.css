@@ -4,13 +4,14 @@
   border-top: 2px solid var(--color-primary);
 }
 
-.movies_list_inner > h1 {
+.movies_list_inner > div > h1 {
   color: var(--color-primary);
+  min-width: fit-content;
   padding: 1rem 0;
 }
 
 .movies_list_inner {
-  width: 70%;
+  width: 80%;
   margin: auto;
 }
 
@@ -32,20 +33,21 @@
   padding-left: 2.5rem;
   vertical-align: top;
   line-height: 1.5rem;
-  width: 35rem;
+  width: 25rem;
 }
 
-.movie_informations h2 {
-  padding: 1rem 0;
+.movie_informations h3 {
+  padding: 0.5rem 0;
   margin-bottom: 0.5rem;
 }
 
 .movie_informations > div > div {
   font-size: 0.8rem;
+  overflow: hidden;
 }
 
 .movie_label {
-  width: 15rem;
+  max-width: 20rem;
 }
 
 .movie_label a {
@@ -67,14 +69,11 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  width: 5rem;
-  height: 5rem;
+  width: fit-content;
+  height: fit-content;
   vertical-align: top;
   margin: 0 1rem;
   padding: 0.35rem;
-}
-
-.times > div {
 }
 
 .times > div:hover {
@@ -97,7 +96,7 @@
     flex-direction: column;
   }
 
-  .movie_informations h2 {
+  .movie_informations h3 {
     margin: 0;
   }
 
@@ -107,7 +106,7 @@
 }
 
 @media screen and (max-width: 1080px) {
-  .movie_informations h2 {
+  .movie_informations h3 {
     font-size: 1.25rem;
     margin: 0;
   }

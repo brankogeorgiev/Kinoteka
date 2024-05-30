@@ -119,28 +119,28 @@ const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "halls",
-        loader: checkIsAdmin,
-        children: [
-          {
-            index: true,
-            element: <HallsPage />,
-            loader: hallsInfoLoader,
-          },
-          {
-            path: ":hallId",
-            id: "hall-info",
-            loader: hallInfoLoader,
-            children: [
-              {
-                index: true,
-                element: <HallPage />,
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   path: "halls",
+      //   loader: checkIsAdmin,
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <HallsPage />,
+      //       loader: hallsInfoLoader,
+      //     },
+      //     {
+      //       path: ":hallId",
+      //       id: "hall-info",
+      //       loader: hallInfoLoader,
+      //       children: [
+      //         {
+      //           index: true,
+      //           element: <HallPage />,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
       {
         path: "profile",
         id: "profile",

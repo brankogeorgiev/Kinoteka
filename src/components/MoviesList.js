@@ -72,39 +72,44 @@ function MoviesList({ movies }) {
   return (
     <div className={classes.movies_list}>
       <div className={classes.movies_list_inner}>
-        <h1 style={{ display: "inline-block" }}>All movies</h1>
-        <div
-          style={{
-            display: "inline-block",
-            marginLeft: "30rem",
-          }}
-        >
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Sort by
-            </Dropdown.Toggle>
+        <div className="d-flex justify-content-between">
+          <h1 className="px-5" style={{ display: "inline-block" }}>
+            All movies
+          </h1>
+          <div
+            className="my-auto px-5"
+            style={{
+              display: "inline-block",
+              marginLeft: "30rem",
+            }}
+          >
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Sort by
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => sortMoviesByTitle(true)}>
-                A - Z
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByTitle(false)}>
-                Z - A
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByReleaseDate(true)}>
-                Oldest to Latest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByReleaseDate(false)}>
-                Latest to Oldest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByDuration(true)}>
-                Shortest to Longest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByDuration(false)}>
-                Longest to Shortest
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => sortMoviesByTitle(true)}>
+                  A - Z
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByTitle(false)}>
+                  Z - A
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByReleaseDate(true)}>
+                  Oldest to Latest
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByReleaseDate(false)}>
+                  Latest to Oldest
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByDuration(true)}>
+                  Shortest to Longest
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByDuration(false)}>
+                  Longest to Shortest
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
 
         <ul>
@@ -126,19 +131,26 @@ function MoviesList({ movies }) {
               .splice(0, 3);
 
             return (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>
-                  <img src={movie.poster} alt={movie.description} />
-                </Link>
-                <div className={classes.movie_informations}>
-                  <div className={classes.movie_label}>
-                    <Link to={`/movies/${movie.id}`}>
-                      <h2>{movie.title}</h2>
-                    </Link>
-                  </div>
-                  <div className={classes.movie_label}>
-                    <div>
-                      {movie.genre.join(", ")} | {movie.durationTime} min
+              <li key={movie.id} className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
+                  <Link to={`/movies/${movie.id}`}>
+                    <img
+                      width="100rem"
+                      height="250rem"
+                      src={movie.poster}
+                      alt={movie.description}
+                    />
+                  </Link>
+                  <div className={classes.movie_informations}>
+                    <div className={classes.movie_label}>
+                      <Link to={`/movies/${movie.id}`}>
+                        <h3>{movie.title}</h3>
+                      </Link>
+                    </div>
+                    <div className={classes.movie_label}>
+                      <div>
+                        {movie.genre.join(", ")} | {movie.durationTime} min
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -166,19 +178,18 @@ function MoviesList({ movies }) {
 
                       return (
                         <Link
+                          key={movie.id}
                           to={`/movies/${movie.id}/${proj.hall}/${proj.id}`}
                         >
                           <div key={crypto.randomUUID()}>
-                            <div className={classes.showtime}>
+                            <div>
                               <div>
                                 <span>{time}</span>{" "}
                                 <IoTicket style={{ color: "lightgreen" }} />
                               </div>
                               <div>{day}</div>
                             </div>
-                            <div className={classes.showtime}>
-                              {hall && hall.name}
-                            </div>
+                            <div>{hall && hall.name}</div>
                           </div>
                         </Link>
                       );

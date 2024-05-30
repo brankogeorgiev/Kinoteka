@@ -38,11 +38,6 @@ function MainNavigation() {
                   Admin Page
                 </NavLink>
               )}
-              {isAdmin && (
-                <NavLink to="/halls" className={classes.list_item}>
-                  Halls
-                </NavLink>
-              )}
             </div>
           </li>
         </ul>

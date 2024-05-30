@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 import { getAuthToken } from "../util/auth";
 import { projectFirestore } from "../firebase/config";
 import { Form, Button, ListGroup } from "react-bootstrap";
-import firebase from "firebase/app";
 import "firebase/auth";
 import { FaPen } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 function MyProfile() {
   const [isUpdating, setIsUpdating] = useState(false);
-  const { token, uid } = getAuthToken();
+  const { uid } = getAuthToken();
   const [user, setUser] = useState({});
   const [userData, setUserData] = useState({});
 
@@ -50,15 +49,7 @@ function MyProfile() {
     return `${year}-${month}-${day}`;
   }
 
-  async function updateEmailInFirebaseAuth(newEmail) {
-    try {
-      const user = firebase.auth().currentUser;
-      await user.updateEmail(newEmail);
-      console.log("Email updated successfully!");
-    } catch (err) {
-      console.log("Error updating email: " + err);
-    }
-
+  async function updateEmailInFirebaseAuth() {
     await projectFirestore.collection("users").doc(uid).update({
       address: userData.address,
       city: userData.city,
@@ -75,15 +66,19 @@ function MyProfile() {
     e.preventDefault();
 
     updateEmailInFirebaseAuth(userData.email);
+    window.location.reload();
   }
 
   return (
     <div
-      className="d-flex flex-grow-1 p-5"
+      className="d-flex flex-grow-1 px-5 py-2"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
-      <div className="flex-grow-1 row text-white p-5">
+      <div className="flex-grow-1 row text-white px-5">
         {/* Left Side */}
+        <h3 className="p-3 fw-bold" style={{ color: "var(--color-primary)" }}>
+          My profile
+        </h3>
         {!isUpdating && (
           <div className="col-9 bg-dark p-4" style={{ borderRadius: "25px" }}>
             <div className="d-flex flex-row justify-content-between">

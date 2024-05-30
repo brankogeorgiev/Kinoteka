@@ -3,6 +3,8 @@ import classes from "./AdminMoviesList.module.css";
 import { TbEdit } from "react-icons/tb";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { projectFirestore } from "../firebase/config.js";
+import { FaPlus } from "react-icons/fa";
+import { BiSolidMoviePlay } from "react-icons/bi";
 
 function AdminMoviesList({ movies }) {
   const handleDelete = (id) => {
@@ -14,10 +16,24 @@ function AdminMoviesList({ movies }) {
     <div className={classes.movies_list}>
       <div className={classes.movies_list_inner}>
         <div>
-          <h1>Movie settings</h1>
-          <button>
-            <Link to="/admin/movies/add-movie">Add new movie</Link>
-          </button>
+          <div className="d-flex justify-content-between ps-5">
+            <h1>Movies settings</h1>
+            <div className="my-auto">
+              <Link to="/admin/movies/add-movie">
+                <button
+                  style={{ backgroundColor: "var(--color-fifth)" }}
+                  className="btn m-1 text-white"
+                >
+                  <FaPlus className="mb-1" /> Add new movie
+                </button>
+              </Link>
+              <Link to="/admin/add-movie-projection">
+                <button className="btn btn-primary m-1 text-white">
+                  Add movie projection <BiSolidMoviePlay />
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
         <ul>
           {movies.map((movie) => (

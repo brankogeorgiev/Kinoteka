@@ -1,16 +1,34 @@
+import { useEffect, useState } from "react";
+import { projectFirestore } from "../firebase/config";
 import Carousel from "../components/Carousel";
 import Gallery from "../components/Gallery";
 
 function MainContent(props) {
-  const images = [
-    "https://i0.wp.com/thetechnovore.com/wp-content/uploads/2019/04/D40BuNcWAAEVP4r.jpg?fit=1200%2C503&ssl=1",
-    "https://i.ytimg.com/vi/D58KIfFMJ9Y/maxresdefault.jpg",
-    "https://media.assettype.com/film-companion/import/wp-content/uploads/2021/08/AEE1E04D-C382-4B97-8D11-03028E182A31.jpeg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true",
-  ];
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  async function fetchMovies() {
+    let results = [];
+    await projectFirestore
+      .collection("movies")
+      .get()
+      .then((snapshot) => {
+        if (!snapshot.empty) {
+          snapshot.docs.forEach((doc) => {
+            results.push({ id: doc.id, ...doc.data() });
+          });
+        }
+      });
+    const resultsFiltered = results.filter((res) => res.image !== undefined);
+    setMovies(resultsFiltered);
+  }
 
   return (
-    <div>
-      <Carousel images={images} />
+    <div className="text-center">
+      {movies && <Carousel movies={movies} />}
       <Gallery movies={props.movies} />
     </div>
   );

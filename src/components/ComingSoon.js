@@ -69,39 +69,44 @@ function ComingSoon({ movies }) {
   return (
     <div className={classes.movies_list + " flex-grow-1"}>
       <div className={classes.movies_list_inner}>
-        <h1 style={{ display: "inline-block" }}>Coming Soon</h1>
-        <div
-          style={{
-            display: "inline-block",
-            marginLeft: "30rem",
-          }}
-        >
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Sort by
-            </Dropdown.Toggle>
+        <div className="d-flex justify-content-between">
+          <h1 className="px-5" style={{ display: "inline-block" }}>
+            Coming Soon
+          </h1>
+          <div
+            className="my-auto px-5"
+            style={{
+              display: "inline-block",
+              marginLeft: "30rem",
+            }}
+          >
+            <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                Sort by
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => sortMoviesByTitle(true)}>
-                A - Z
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByTitle(false)}>
-                Z - A
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByReleaseDate(true)}>
-                Oldest to Latest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByReleaseDate(false)}>
-                Latest to Oldest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByDuration(true)}>
-                Shortest to Longest
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => sortMoviesByDuration(false)}>
-                Longest to Shortest
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => sortMoviesByTitle(true)}>
+                  A - Z
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByTitle(false)}>
+                  Z - A
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByReleaseDate(true)}>
+                  Oldest to Latest
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByReleaseDate(false)}>
+                  Latest to Oldest
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByDuration(true)}>
+                  Shortest to Longest
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => sortMoviesByDuration(false)}>
+                  Longest to Shortest
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </div>
 
         <ul>
@@ -141,19 +146,21 @@ function ComingSoon({ movies }) {
             const fullDate = `${day} ${monthFullName} ${year}`;
 
             return (
-              <li key={movie.id}>
-                <Link to={`/movies/${movie.id}`}>
-                  <img src={movie.poster} alt={movie.description} />
-                </Link>
-                <div className={classes.movie_informations}>
-                  <div className={classes.movie_label}>
-                    <Link to={`/movies/${movie.id}`}>
-                      <h2>{movie.title}</h2>
-                    </Link>
-                  </div>
-                  <div className={classes.movie_label}>
-                    <div>
-                      {movie.genre.join(", ")} | {movie.durationTime} min
+              <li key={movie.id} className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
+                  <Link to={`/movies/${movie.id}`}>
+                    <img src={movie.poster} alt={movie.description} />
+                  </Link>
+                  <div className={classes.movie_informations}>
+                    <div className={classes.movie_label}>
+                      <Link to={`/movies/${movie.id}`}>
+                        <h2>{movie.title}</h2>
+                      </Link>
+                    </div>
+                    <div className={classes.movie_label}>
+                      <div>
+                        {movie.genre.join(", ")} | {movie.durationTime} min
+                      </div>
                     </div>
                   </div>
                 </div>
