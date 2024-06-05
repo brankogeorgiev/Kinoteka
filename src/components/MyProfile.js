@@ -6,6 +6,8 @@ import { Form, Button, ListGroup } from "react-bootstrap";
 import "firebase/auth";
 import { FaPen } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { LuFolderHeart } from "react-icons/lu";
+import { GiTicket } from "react-icons/gi";
 
 function MyProfile() {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -74,101 +76,163 @@ function MyProfile() {
       className="d-flex flex-grow-1 px-5 py-2"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
-      <div className="flex-grow-1 row text-white px-5">
+      <div className="flex-grow-1 row text-white p-5">
         {/* Left Side */}
-        <h3 className="p-3 fw-bold" style={{ color: "var(--color-primary)" }}>
-          My profile
-        </h3>
+        <div className="col-3 my-5 py-5">
+          <ListGroup>
+            <Link className="text-decoration-none" to="favorite-movies">
+              <ListGroup.Item
+                className="p-3 mb-2"
+                style={{
+                  backgroundColor: "var(--color-secondary)",
+                  color: "var(--color-primary)",
+                  borderRadius: "0.5rem",
+                  boxShadow: "0 4px 8px rgba(255, 255, 255, 0.5)",
+                  transition: "all 0.3s ease-in-out",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.boxShadow =
+                    "0 8px 16px rgba(255, 255, 255, 0.7)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.boxShadow =
+                    "0 4px 8px rgba(255, 255, 255, 0.5)")
+                }
+              >
+                Favorites <LuFolderHeart className="fs-5" />
+              </ListGroup.Item>
+            </Link>
+            <Link className="text-decoration-none" to="my-reservations">
+              <ListGroup.Item
+                className="p-3"
+                style={{
+                  backgroundColor: "var(--color-secondary)",
+                  color: "var(--color-primary)",
+                  borderRadius: "0.5rem",
+                  boxShadow: "0 4px 8px rgba(255, 255, 255, 0.5)",
+                  transition: "all 0.3s ease-in-out",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.boxShadow =
+                    "0 8px 16px rgba(255, 255, 255, 0.7)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.boxShadow =
+                    "0 4px 8px rgba(255, 255, 255, 0.5)")
+                }
+              >
+                My Tickets <GiTicket className="fs-5" />
+              </ListGroup.Item>
+            </Link>
+          </ListGroup>
+        </div>
+
+        {/* Right Side */}
+
         {!isUpdating && (
-          <div className="col-9 bg-dark p-4" style={{ borderRadius: "25px" }}>
-            <div className="d-flex flex-row justify-content-between">
-              <div className="d-flex flex-column">
-                <h3 className="my-auto">
-                  {user.firstName + " " + user.lastName}
-                </h3>
-                <p className="my-auto">{user.email}</p>
+          <div className="col-9">
+            <h3
+              className="p-3 fw-bold"
+              style={{ color: "var(--color-primary)" }}
+            >
+              My profile
+            </h3>
+            <div className="bg-dark p-4" style={{ borderRadius: "25px" }}>
+              <div className="d-flex flex-row justify-content-between">
+                <div className="d-flex flex-column">
+                  <h3 className="my-auto">
+                    {user.firstName + " " + user.lastName}
+                  </h3>
+                  <p className="my-auto">{user.email}</p>
+                </div>
+                <div className="d-inline-block my-auto p-3">
+                  <button
+                    style={{
+                      backgroundColor: "inherit",
+                      border: "none",
+                      color: "var(--color-primary)",
+                    }}
+                    onClick={handleUpdateChange}
+                  >
+                    Update <FaPen className="fs-5" />
+                  </button>
+                </div>
               </div>
-              <div className="d-inline-block my-auto p-3">
-                <button
-                  style={{
-                    backgroundColor: "inherit",
-                    border: "none",
-                    color: "var(--color-primary)",
-                  }}
-                  onClick={handleUpdateChange}
-                >
-                  Update <FaPen className="fs-5" />
-                </button>
+              <hr />
+              <div className="row">
+                {/* Personal Information */}
+                <div className="col-6">
+                  <h4 className="text-danger">Personal Information</h4>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">First Name</div>
+                    <div>{user.firstName}</div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">Last Name</div>
+                    <div>{user.lastName}</div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">Date of Birth</div>
+                    <div>
+                      {user.dateOfBirth
+                        ? user.dateOfBirth
+                            .toDate()
+                            .toLocaleDateString()
+                            .replaceAll("/", ".")
+                        : "-"}
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">Gender</div>
+                    <div>
+                      {user.gender
+                        ? user.gender.charAt(0).toUpperCase() +
+                          user.gender.slice(1)
+                        : "-"}
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">E-Mail</div>
+                    <div>{user.email}</div>
+                  </div>
+                </div>
+                {/* Blank (Right side) */}
+                <div className="col-6">
+                  <div className="p-3"></div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">Phone Number</div>
+                    <div>
+                      {user.phoneNumber === "" || !user.phoneNumber
+                        ? "-"
+                        : user.phoneNumber}
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">Country</div>
+                    <div>
+                      {user.country === "" || !user.country
+                        ? "-"
+                        : user.country}
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">City</div>
+                    <div>
+                      {user.city === "" || !user.city ? "-" : user.city}
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column py-2">
+                    <div className="text-secondary">Address</div>
+                    <div>
+                      {user.address === "" || !user.address
+                        ? "-"
+                        : user.address}
+                    </div>
+                  </div>
+                </div>
               </div>
+              <hr />
             </div>
-            <hr />
-            <div className="row">
-              {/* Personal Information */}
-              <div className="col-6">
-                <h4 className="text-danger">Personal Information</h4>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">First Name</div>
-                  <div>{user.firstName}</div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Last Name</div>
-                  <div>{user.lastName}</div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Date of Birth</div>
-                  <div>
-                    {user.dateOfBirth
-                      ? user.dateOfBirth
-                          .toDate()
-                          .toLocaleDateString()
-                          .replaceAll("/", ".")
-                      : "-"}
-                  </div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Gender</div>
-                  <div>
-                    {user.gender
-                      ? user.gender.charAt(0).toUpperCase() +
-                        user.gender.slice(1)
-                      : "-"}
-                  </div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">E-Mail</div>
-                  <div>{user.email}</div>
-                </div>
-              </div>
-              {/* Blank (Right side) */}
-              <div className="col-6">
-                <div className="p-3"></div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Phone Number</div>
-                  <div>
-                    {user.phoneNumber === "" || !user.phoneNumber
-                      ? "-"
-                      : user.phoneNumber}
-                  </div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Country</div>
-                  <div>
-                    {user.country === "" || !user.country ? "-" : user.country}
-                  </div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">City</div>
-                  <div>{user.city === "" || !user.city ? "-" : user.city}</div>
-                </div>
-                <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Address</div>
-                  <div>
-                    {user.address === "" || !user.address ? "-" : user.address}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <hr />
           </div>
         )}
 
@@ -327,32 +391,6 @@ function MyProfile() {
             </Form>
           </div>
         )}
-
-        {/* Right Side */}
-        <div className="col-3">
-          <ListGroup>
-            <Link className="text-decoration-none" to="favorite-movies">
-              <ListGroup.Item
-                style={{
-                  backgroundColor: "var(--color-secondary)",
-                  color: "var(--color-third)",
-                }}
-              >
-                Favorites
-              </ListGroup.Item>
-            </Link>
-            <Link className="text-decoration-none" to="my-reservations">
-              <ListGroup.Item
-                style={{
-                  backgroundColor: "var(--color-secondary)",
-                  color: "var(--color-third)",
-                }}
-              >
-                My Tickets
-              </ListGroup.Item>
-            </Link>
-          </ListGroup>
-        </div>
       </div>
     </div>
   );

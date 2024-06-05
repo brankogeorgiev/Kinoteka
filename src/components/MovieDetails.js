@@ -5,6 +5,7 @@ import { projectFirestore } from "../firebase/config";
 import { MdStar } from "react-icons/md";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { IoMdStar } from "react-icons/io";
+import { IoTicketSharp } from "react-icons/io5";
 import { getUID } from "../util/auth";
 import { Card, Carousel } from "react-bootstrap";
 
@@ -250,8 +251,12 @@ function MovieDetails({ movie }) {
                           {getHallName(pr.hall)}
                         </td>
                         <td className="col text-center">
-                          <Link to={`/movies/${movie.id}/${pr.hall}/${pr.id}`}>
-                            Reserve your tickets
+                          <Link
+                            className="text-decoration-none text-dark fw-bold"
+                            to={`/movies/${movie.id}/${pr.hall}/${pr.id}`}
+                          >
+                            Reserve your tickets{" "}
+                            <IoTicketSharp className="fs-5 text-danger" />
                           </Link>
                         </td>
                       </tr>
