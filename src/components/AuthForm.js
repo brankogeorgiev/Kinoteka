@@ -158,7 +158,7 @@ function AuthForm() {
               type="submit"
               class="btn btn-success p-2 px-3"
             >
-              {isSubmitting ? "Submitting..." : "Save"}
+              {isSubmitting ? "Submitting..." : isLogin ? "Login" : "Save"}
             </button>
           </div>
         </Form>

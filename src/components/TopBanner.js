@@ -51,7 +51,7 @@ function TopBanner() {
         {token && (
           <Form action="/logout" method="post">
             <button
-              className="fw-bold"
+              className="fw-bold ms-3"
               style={{ border: "none", backgroundColor: "inherit" }}
             >
               Logout <IoIosExit className="fs-5" />
