@@ -73,15 +73,13 @@ function ComingSoon({ movies }) {
           <h1 className="px-5" style={{ display: "inline-block" }}>
             Coming Soon
           </h1>
-          <div
-            className="my-auto px-5"
-            style={{
-              display: "inline-block",
-              marginLeft: "30rem",
-            }}
-          >
+          <div className={classes.sorter}>
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
+              <Dropdown.Toggle
+                variant="success"
+                id="dropdown-basic"
+                className={classes.sortByText}
+              >
                 Sort by
               </Dropdown.Toggle>
 
@@ -149,7 +147,11 @@ function ComingSoon({ movies }) {
               <li key={movie.id} className="d-flex justify-content-between">
                 <div className="d-flex align-items-center">
                   <Link to={`/movies/${movie.id}`}>
-                    <img src={movie.poster} alt={movie.description} />
+                    <img
+                      src={movie.poster}
+                      alt={movie.description}
+                      className={classes.posterImg}
+                    />
                   </Link>
                   <div className={classes.movie_informations}>
                     <div className={classes.movie_label}>
@@ -159,12 +161,19 @@ function ComingSoon({ movies }) {
                     </div>
                     <div className={classes.movie_label}>
                       <div>
-                        {movie.genre.join(", ")} | {movie.durationTime} min
+                        <p>
+                          {movie.genre.join(", ")} | {movie.durationTime} min
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="text-white my-auto text-right fw-bold">
+                <div
+                  className={
+                    classes.premiereText +
+                    " text-white my-auto text-right fw-bold"
+                  }
+                >
                   Premiere: {fullDate}
                 </div>
               </li>

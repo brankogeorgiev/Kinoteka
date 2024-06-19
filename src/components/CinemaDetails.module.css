@@ -1,0 +1,48 @@
+.mainDiv {
+  padding: 5rem;
+  width: 75%;
+}
+
+@media screen and (max-width: 768px) {
+  .mainDiv {
+    padding: 0.25rem;
+    width: 80%;
+  }
+  .mainText > h1 {
+    font-size: larger;
+  }
+
+  .mainText > p,
+  ul {
+    font-size: small;
+  }
+
+  .mainText > h2 {
+    font-size: large;
+  }
+}
+
+@media screen and (max-width: 505px) {
+  .mainDiv {
+    padding: 0.1rem;
+    width: 90%;
+  }
+
+  .heading {
+    text-align: center;
+  }
+
+  .mainText > h1 {
+    font-size: large;
+    text-align: center;
+  }
+
+  .mainText > p,
+  ul {
+    font-size: x-small;
+  }
+
+  .mainText > h2 {
+    font-size: medium;
+  }
+}

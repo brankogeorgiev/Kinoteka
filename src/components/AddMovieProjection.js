@@ -323,12 +323,21 @@ function AddMovieProjection({ data }) {
 
   return (
     <div
-      className="conatiner flex-grow-1 text-white"
+      className="container-fluid flex-grow-1 text-white"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
-      <div className="container-fluid m-5 p-5">
+      <div className="container m-5 p-5">
+        <h3
+          className="offset-2 mb-5 pb-2 text-center"
+          style={{
+            color: "var(--color-primary)",
+            borderBottom: "1px solid var(--color-primary)",
+          }}
+        >
+          Add movie projection
+        </h3>
         {error && <h3 className="text-danger">{error}</h3>}
-        <form>
+        <form className="offset-2">
           <div className="form-group">
             <div className="row m-3 p-3">
               <div className="col">

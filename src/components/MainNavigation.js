@@ -17,7 +17,7 @@ function MainNavigation() {
               <img src={logo} className={classes.logo} alt="Logo" />
             </NavLink>
           </li>
-          <li>
+          <li className={classes.navBtns}>
             <div>
               <NavLink to="/movies" className={classes.list_item}>
                 In Cinema

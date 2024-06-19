@@ -76,15 +76,13 @@ function MoviesList({ movies }) {
           <h1 className="px-5" style={{ display: "inline-block" }}>
             All movies
           </h1>
-          <div
-            className="my-auto px-5"
-            style={{
-              display: "inline-block",
-              marginLeft: "30rem",
-            }}
-          >
+          <div className={classes.sorter}>
             <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
+              <Dropdown.Toggle
+                variant="success"
+                id="dropdown-basic"
+                className={classes.sortByText}
+              >
                 Sort by
               </Dropdown.Toggle>
 
@@ -177,21 +175,31 @@ function MoviesList({ movies }) {
                       date = date.split(".")[0] + "%2B02%3A00";
 
                       return (
-                        <Link
-                          key={movie.id}
-                          to={`/movies/${movie.id}/${proj.hall}/${proj.id}`}
-                        >
-                          <div key={crypto.randomUUID()}>
-                            <div>
+                        <div className={classes.inlineReserveTicket}>
+                          <Link
+                            key={movie.id}
+                            to={`/movies/${movie.id}/${proj.hall}/${proj.id}`}
+                          >
+                            <div key={crypto.randomUUID()}>
                               <div>
-                                <span>{time}</span>{" "}
-                                <IoTicket style={{ color: "lightgreen" }} />
+                                <div>
+                                  <span>
+                                    {time}
+                                    {" --"}
+                                  </span>{" "}
+                                  <IoTicket
+                                    className="text-danger"
+                                    style={{
+                                      fontSize: "large",
+                                    }}
+                                  />
+                                </div>
+                                <div>{day}</div>
                               </div>
-                              <div>{day}</div>
+                              <div>{hall && hall.name}</div>
                             </div>
-                            <div>{hall && hall.name}</div>
-                          </div>
-                        </Link>
+                          </Link>
+                        </div>
                       );
                     })}
                 </div>

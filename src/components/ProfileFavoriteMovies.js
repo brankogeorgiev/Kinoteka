@@ -30,47 +30,61 @@ function ProfileFavoriteMovies({ object }) {
       className="container-fluid flex-grow-1"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
-      <h1 className="text-white ms-5 ps-5 pt-3">Favorite movies</h1>
-      <div className="container p-5 text-white">
-        {favoriteMovies &&
-          favoriteMovies.map((element) => (
-            <Link to={"/movies/" + element.id} key={element.id}>
-              <div
-                key={element.id}
-                style={{ display: "inline-block" }}
-                className="card bg-dark text-white my-1 mx-3"
-              >
-                <img
-                  className="card-img"
-                  src={element.poster}
-                  alt="Card image"
-                  style={{ opacity: "0.75", width: "15rem", height: "22.5rem" }}
-                />
-                <div className="card-img-overlay">
-                  <button
-                    className="p-2"
+      <div className="row col-10 offset-1">
+        <h1
+          className="ps-5 py-3 col-10 offset-1"
+          style={{
+            color: "var(--color-primary)",
+            borderBottom: "1px solid var(--color-primary)",
+          }}
+        >
+          Favorite movies
+        </h1>
+        <div className="container p-4 text-white col-10 offset-1">
+          {favoriteMovies &&
+            favoriteMovies.map((element) => (
+              <Link to={"/movies/" + element.id} key={element.id}>
+                <div
+                  key={element.id}
+                  style={{ display: "inline-block" }}
+                  className="card bg-dark text-white m-3"
+                >
+                  <img
+                    className="card-img"
+                    src={element.poster}
+                    alt="Card image"
                     style={{
-                      backgroundColor: "#282727",
-                      border: "none",
                       opacity: "0.75",
+                      width: "15rem",
+                      height: "22.5rem",
                     }}
-                    onClick={(e) =>
-                      handleRemoveMovieFromFavorites(e, element.id)
-                    }
-                  >
-                    <FaHeart
+                  />
+                  <div className="card-img-overlay">
+                    <button
+                      className="p-2"
                       style={{
-                        color: "red",
-                        fontSize: "2rem",
+                        backgroundColor: "#282727",
+                        border: "none",
                         opacity: "0.75",
-                        verticalAlign: "top",
                       }}
-                    />
-                  </button>
+                      onClick={(e) =>
+                        handleRemoveMovieFromFavorites(e, element.id)
+                      }
+                    >
+                      <FaHeart
+                        style={{
+                          color: "red",
+                          fontSize: "2rem",
+                          opacity: "0.75",
+                          verticalAlign: "top",
+                        }}
+                      />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+        </div>
       </div>
     </div>
   );

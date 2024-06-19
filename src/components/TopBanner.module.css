@@ -42,6 +42,7 @@
 
 .searchIcon:hover {
   cursor: pointer;
+  color: black;
 }
 
 .person {
@@ -51,4 +52,31 @@
 
 .person:hover {
   cursor: pointer;
+  color: black;
+}
+
+.loggedPerson {
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+  margin-bottom: 0.15rem;
+}
+
+@media screen and (max-width: 768px) {
+  .upper_section {
+    padding-right: 8%;
+  }
+}
+
+@media screen and (max-width: 505px) {
+  .upper_section {
+    padding-right: 2%;
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .upper_section ul {
+    font-size: 0.75rem;
+    margin: auto;
+  }
 }

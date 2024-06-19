@@ -38,11 +38,12 @@ function TopBanner() {
           {token && (
             <span>
               <Link
-                className="text-decoration-none"
+                className="text-decoration-none me-3"
                 style={{ color: "inherit" }}
                 to={"/profile"}
               >
-                <BsFillPersonFill className="fs-5" /> Hello {email}{" "}
+                <BsFillPersonFill className={classes.loggedPerson} /> Hello,{" "}
+                {email}{" "}
               </Link>
             </span>
           )}

@@ -98,7 +98,7 @@ function Footer() {
               </ul>
             </div>
             <div className="col-12 col-md-3 text-white my-3">
-              <h5 className="fw-bold">Contact Us</h5>
+              <h5 className="fw-bold me-5">Contact Us</h5>
               <div className="d-flex justify-content-start m-2">
                 <FaMapLocation className="mx-3" />
                 Skopje, Macedonia
@@ -120,7 +120,7 @@ function Footer() {
           </div>
           <hr className="text-white" />
           <div className="text-center text-white fw-bold">
-            @ 2024 Copyright: Kinoteka.com
+            2024 Copyright: Kinoteka.com ©
           </div>
         </div>
       </div>

@@ -46,3 +46,51 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+@media screen and (max-width: 905px) {
+  .list {
+    display: flexbox;
+    justify-content: center;
+    align-items: center;
+  }
+  .navBtns {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+  }
+
+  .list li > div > a:hover {
+    font-size: 0.885rem;
+    transition: all 0.25s ease-in;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navBtns {
+    font-size: 0.75rem;
+    padding: 0 0.5rem;
+    margin: auto;
+  }
+
+  .list li > div > a:hover {
+    font-size: 0.785rem;
+    transition: all 0.25s ease-in;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .navBtns {
+    font-size: 0.65rem;
+    padding: 0 0.15rem;
+    margin: auto;
+  }
+
+  .list_item {
+    display: inline-block;
+    padding: 0.35rem 0.15rem;
+  }
+
+  .list li > div > a:hover {
+    font-size: 0.66rem;
+    transition: all 0.25s ease-in;
+  }
+}

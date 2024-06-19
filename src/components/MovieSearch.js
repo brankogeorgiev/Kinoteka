@@ -31,9 +31,15 @@ function MovieSearch({ movies }) {
 
   return (
     <div className={classes.search_container + " flex-grow-1"}>
-      <h4 className="fw-bold px-5" style={{ color: "var(--color-primary)" }}>
+      <h2
+        className="px-4 ms-5 border-bottom pb-3"
+        style={{
+          color: "var(--color-primary)",
+          width: "94%",
+        }}
+      >
         Search movies
-      </h4>
+      </h2>
       <div className={classes.input_field + " px-5"}>
         <FaSearch />
         <input
@@ -41,6 +47,7 @@ function MovieSearch({ movies }) {
           placeholder="Type to search..."
           onChange={handleSearch}
           value={searchQuery}
+          className="ps-5 fs-5"
         />
       </div>
       <ul className="px-5 m-3">

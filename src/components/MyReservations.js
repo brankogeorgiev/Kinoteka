@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import classes from "./MyReservations.module.css";
 
 function MyReservations({ object }) {
   const user = object.user;
@@ -22,7 +23,10 @@ function MyReservations({ object }) {
 
   return (
     <div
-      className="container-fluid d-flex flex-grow-1 p-4 row"
+      className={
+        classes.passedReservationsDiv +
+        " container-fluid d-flex flex-grow-1 p-4 row"
+      }
       style={{ backgroundColor: "var(--color-secondary)" }}
       key={crypto.randomUUID()}
     >
@@ -73,7 +77,7 @@ function MyReservations({ object }) {
                 key={res.id}
               >
                 <div
-                  className="row rounded p-3 m-2"
+                  className={classes.card + " row rounded p-3 m-2"}
                   style={{ backgroundColor: "var(--color-fourth)" }}
                 >
                   <div className="col-2">
@@ -81,10 +85,10 @@ function MyReservations({ object }) {
                   </div>
                   <div className="col-10">
                     <h4 className="pt-4">{movie.title}</h4>
-                    <p className="pt-2 fs-5 text-white">
+                    <p className="pt-2 text-white">
                       {dateOfProjectionString}, {reservationTime}
                     </p>
-                    <p className="text-secondary fs-5">
+                    <p className="text-secondary">
                       {res.seats.length} ticket{res.seats.length > 1 ? "s" : ""}{" "}
                       reserved
                     </p>
@@ -94,7 +98,11 @@ function MyReservations({ object }) {
             );
           })}
       </div>
-      <div className="container text-white p-4 col-6">
+      <div
+        className={
+          classes.upcomingReservationsDiv + " container text-white p-4 col-6"
+        }
+      >
         <h3 className="m-3">Upcoming tickets</h3>
         {upcomingMovies &&
           upcomingMovies.map((res) => {
@@ -142,7 +150,7 @@ function MyReservations({ object }) {
                 key={res.id}
               >
                 <div
-                  className="row rounded p-3 m-2"
+                  className={classes.card + " row rounded p-3 m-2"}
                   style={{ backgroundColor: "var(--color-fourth)" }}
                 >
                   <div className="col-2">
@@ -150,10 +158,10 @@ function MyReservations({ object }) {
                   </div>
                   <div className="col-10">
                     <h4 className="pt-4">{movie.title}</h4>
-                    <p className="pt-2 fs-5 text-white">
+                    <p className="pt-2 text-white">
                       {dateOfProjectionString}, {reservationTime}
                     </p>
-                    <p className="text-secondary fs-5">
+                    <p className="text-secondary">
                       {res.seats.length} ticket{res.seats.length > 1 ? "s" : ""}{" "}
                       reserved
                     </p>

@@ -215,7 +215,7 @@ function ReservationDetail({ reservation }) {
 
   return (
     <div
-      className="container-fluid flex-grow-1 p-4"
+      className={classes.outer + " container-fluid flex-grow-1 p-4"}
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
       {passedReservation && (

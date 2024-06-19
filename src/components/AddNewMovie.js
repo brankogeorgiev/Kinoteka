@@ -99,7 +99,7 @@ function AddNewMovie({ movie, movieIsEdited }) {
   return (
     <>
       <div className={classes.outer}>
-        <div className={classes.container}>
+        <div className={classes.container + " rounded-5 bg-dark"}>
           <h1 className={classes.text}>
             {movieIsEdited ? "Edit movie" : "Add a new movie"}
           </h1>
@@ -137,12 +137,19 @@ function AddNewMovie({ movie, movieIsEdited }) {
                 <label htmlFor="">Director</label>
               </div>
             </div>
-            <div className={classes.form_row}>
-              <div className={classes.input_data}>
+            <div className={classes.form_row + " mb-3"}>
+              <div
+                className={[classes.input_data, classes.genreSelector].join(
+                  " "
+                )}
+              >
                 <select
                   ref={genre}
                   defaultValue={movie ? movie.genre : []}
                   multiple={true}
+                  className={
+                    classes.custom_scrollbar + " bg-dark text-white p-1"
+                  }
                 >
                   <option value="Comedy">Comedy</option>
                   <option value="Horror">Horror</option>
@@ -153,9 +160,18 @@ function AddNewMovie({ movie, movieIsEdited }) {
                   <option value="Other">Other</option>
                 </select>
                 <div className={classes.underline}></div>
-                <label htmlFor="">Genre</label>
+                <label
+                  htmlFor=""
+                  className="mb-4 pb-1"
+                  style={{ color: "var(--color-primary)" }}
+                >
+                  Genre
+                </label>
               </div>
-              <div className={classes.input_data}>
+              <div
+                className={[classes.input_data, classes.duration].join(" ")}
+                style={{ marginTop: "1.5rem" }}
+              >
                 <input
                   type="number"
                   required
@@ -167,18 +183,26 @@ function AddNewMovie({ movie, movieIsEdited }) {
                 <div className={classes.underline}></div>
                 <label htmlFor="">Duration time</label>
               </div>
+
               <div className={classes.input_data}>
+                <span
+                  style={{ color: "var(--color-primary)", fontSize: "1rem" }}
+                >
+                  Release Date
+                </span>
                 <input
                   type="date"
                   required
                   ref={releaseDate}
                   defaultValue={releaseDateString}
+                  className={classes.no_placeholder + " text-white"}
                   // onChange={(e) => setDurationTime(e.target.value)}
                 />
                 <div className={classes.underline}></div>
-                <label>Release Date</label>
+                {/* <label htmlFor="">Release Date</label> */}
               </div>
             </div>
+            <br />
             <div className={classes.form_row}>
               <div className={classes.input_data}>
                 <input
@@ -284,6 +308,7 @@ function AddNewMovie({ movie, movieIsEdited }) {
                     required
                     ref={description}
                     defaultValue={movie ? movie.description : ""}
+                    className={classes.custom_scrollbar}
                     // onChange={(e) => setDescription(e.target.value)}
                   />
                   <div className={classes.underline}></div>
@@ -291,13 +316,13 @@ function AddNewMovie({ movie, movieIsEdited }) {
                 </div>
               </div>
             </div>
-            <div className={classes.form_row}>
+            <div className={classes}>
               <div className={classes.input_data}>
-                <div className={classes.submit_btn}>
-                  <div className={classes.input_data}>
-                    <div className={classes.inner}></div>
+                <div className="row">
+                  <div className="col-4 offset-4 p-4">
                     <input
                       type="submit"
+                      className="btn btn-success col-4"
                       value={movieIsEdited ? "Edit" : "Add"}
                     />
                   </div>

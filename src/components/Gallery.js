@@ -8,9 +8,9 @@ function Gallery({ movies }) {
     <>
       <div className={classes.gallery}>
         <h1>Top picks</h1>
-        <div className="container w-75">
+        <div className="container-fluid w-75">
           <div className="row">
-            <div className="col-6">
+            <div className={classes.bigImgDiv + " col-6"}>
               <Link to={`/movies/${topTenMovies[0].id}`}>
                 <img
                   width="100%"
@@ -19,7 +19,7 @@ function Gallery({ movies }) {
                 />
               </Link>
             </div>
-            <div className="col-6 m-auto">
+            <div className={classes.smallImgDiv + " col-6"}>
               <div className="row">
                 <div className="col-6">
                   <Link to={`/movies/${topTenMovies[1].id}`}>
@@ -63,7 +63,7 @@ function Gallery({ movies }) {
             </div>
           </div>
           <div className="row">
-            <div className="col-6 m-auto">
+            <div className={classes.smallImgDiv + " col-6"}>
               <div className="row">
                 <div className="col-6">
                   <Link to={`/movies/${topTenMovies[5].id}`}>
@@ -105,7 +105,7 @@ function Gallery({ movies }) {
                 </div>
               </div>
             </div>
-            <div className="col-6">
+            <div className={classes.bigImgDiv + " col-6"}>
               <Link to={`/movies/${topTenMovies[9].id}`}>
                 <img
                   width="100%"

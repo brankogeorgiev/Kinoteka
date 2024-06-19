@@ -1,0 +1,95 @@
+.logo {
+  padding-left: 0.75rem;
+  font-size: large;
+}
+
+.side_panel {
+  padding: auto;
+}
+
+.mainDiv > div {
+  margin-left: 3rem;
+  background-color: var(--color-secondary);
+}
+
+@media screen and (max-width: 950px) {
+  .logo {
+    padding-left: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .logo {
+    padding-left: none;
+  }
+
+  .infoDiv h3 {
+    font-size: large;
+  }
+
+  .mainDiv > div {
+    margin-left: 1rem;
+  }
+  .infoDiv p,
+  button,
+  button > span {
+    font-size: small;
+  }
+
+  .infoDiv .informations > div > div > div {
+    font-size: medium;
+  }
+
+  .side_panel {
+    font-size: medium;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .logo {
+    padding-left: none;
+  }
+
+  .mainDiv > div {
+    margin-left: 0;
+  }
+
+  .mainDiv h1 {
+    text-align: center;
+  }
+
+  .infoDiv {
+    width: 100%;
+    margin: auto;
+  }
+
+  .infoDiv h3 {
+    font-size: medium;
+  }
+
+  .infoDiv p,
+  button,
+  button > span {
+    font-size: small;
+  }
+
+  .informations h4 {
+    font-size: small;
+  }
+
+  .infoDiv .informations > div > div > div {
+    font-size: medium;
+  }
+
+  .infoHeadings {
+    font-size: 0.5rem;
+  }
+
+  .side_panel {
+    text-align: center;
+    width: 50%;
+    margin: auto;
+    margin-top: 1.5rem;
+  }
+}

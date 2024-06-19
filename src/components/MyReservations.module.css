@@ -1,0 +1,74 @@
+.passedReservationsDiv {
+}
+
+.upcomingReservationsDiv {
+}
+
+.card p {
+  font-size: 20px;
+}
+
+@media screen and (max-width: 1080px) {
+  .passedReservationsDiv {
+    display: block;
+  }
+
+  .card img {
+    display: block;
+    width: 50%;
+  }
+
+  .passedReservationsDiv img {
+    display: block;
+    width: 75%;
+  }
+
+  .upcomingReservationsDiv {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .passedReservationsDiv {
+    display: block;
+  }
+
+  .card h4 {
+    font-size: medium;
+  }
+
+  .card p {
+    font-size: medium;
+  }
+
+  .passedReservationsDiv img {
+    display: block;
+    width: 75%;
+  }
+
+  .upcomingReservationsDiv {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .passedReservationsDiv {
+    display: block;
+  }
+
+  .card h4 {
+    font-size: small;
+  }
+
+  .card p {
+    font-size: small;
+  }
+
+  .passedReservationsDiv img {
+    display: block;
+  }
+
+  .upcomingReservationsDiv {
+    display: block;
+  }
+}

@@ -89,23 +89,39 @@
   line-height: 1.5rem;
 }
 
-@media screen and (max-width: 768px) {
-  .movie_informations {
-    padding: 0 1rem;
-    display: flex;
-    flex-direction: column;
-  }
+.sorter {
+  margin: auto 0;
+}
 
-  .movie_informations h3 {
-    margin: 0;
-  }
+.inlineReserveTicket {
+  border-radius: 5px;
+  background-color: var(--color-primary);
+  padding: 0.25rem;
+  margin: 0.25rem;
+  text-align: center;
+  font-size: 1rem;
+}
 
-  .times {
-    display: none;
-  }
+.inlineReserveTicket a {
+  text-decoration: none;
+  color: var(--color-secondary);
+}
+
+.inlineReserveTicket > div {
+  background-color: var(--color-primary);
 }
 
 @media screen and (max-width: 1080px) {
+  .inlineReserveTicket {
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    padding: auto;
+    text-align: center;
+    font-size: 0.5rem;
+    font-weight: bold;
+    line-height: 1rem;
+  }
+
   .movie_informations h3 {
     font-size: 1.25rem;
     margin: 0;
@@ -117,14 +133,121 @@
   }
 
   .movie_label {
-    width: 5rem;
+    width: 10rem;
   }
 
   .movie_informations {
     line-height: 1.5rem;
+    width: 80%;
   }
 
   .showtime {
     font-size: 0.75rem;
+  }
+  .premiereText {
+    font-size: 0.85rem;
+  }
+  .posterImg {
+    height: 8.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .inlineReserveTicket {
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    padding: 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .movie_informations {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .movie_label h2 {
+    width: 3rem;
+    font-size: 1rem;
+    padding-right: none;
+  }
+
+  .movie_label p {
+    font-size: 0.5rem;
+    width: 4rem;
+  }
+
+  .movie_informations h3 {
+    margin: 0;
+  }
+
+  .times {
+    display: none;
+  }
+
+  .premiereText {
+    font-size: 0.65rem;
+    text-align: center;
+    margin: auto;
+    margin-left: none;
+    padding: 0%;
+  }
+
+  .sorter {
+    font-size: 0.75rem;
+  }
+
+  .posterImg {
+    height: 7rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .movie_label h2 {
+    width: 3rem;
+    font-size: 1rem;
+    padding-right: none;
+  }
+
+  .movie_label p {
+    font-size: 0.5rem;
+    width: 4rem;
+  }
+
+  .movies_list_inner h1 {
+    font-size: large;
+  }
+
+  .movie_informations h3 {
+    margin: 0;
+  }
+
+  .times {
+    display: none;
+  }
+
+  .premiereText {
+    font-size: 0.65rem;
+    text-align: center;
+    margin: auto;
+    margin-left: none;
+    padding: 0%;
+  }
+
+  .movie_informations,
+  .premiereText {
+    display: block;
+    width: 6.5rem;
+  }
+
+  .sorter .sortByText {
+    font-size: 0.75rem;
+  }
+
+  .posterImg {
+    height: 6.5rem;
+    display: block;
+    margin-bottom: 1rem;
   }
 }

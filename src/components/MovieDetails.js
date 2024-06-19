@@ -5,6 +5,7 @@ import { projectFirestore } from "../firebase/config";
 import { MdStar } from "react-icons/md";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { IoMdStar } from "react-icons/io";
+import { IoTicket } from "react-icons/io5";
 import { getUID } from "../util/auth";
 import { Card, Carousel } from "react-bootstrap";
 
@@ -182,7 +183,10 @@ function MovieDetails({ movie }) {
                     </div>
                   </td>
                   <td>
-                    {movieRating} <MdStar />
+                    {movieRating}{" "}
+                    <span className={classes.starLogo}>
+                      <MdStar className="fs-5 text-warning" />
+                    </span>
                   </td>
                 </tr>
                 <tr>
@@ -250,8 +254,28 @@ function MovieDetails({ movie }) {
                           {getHallName(pr.hall)}
                         </td>
                         <td className="col text-center">
-                          <Link to={`/movies/${movie.id}/${pr.hall}/${pr.id}`}>
-                            Reserve your tickets
+                          <Link
+                            to={`/movies/${movie.id}/${pr.hall}/${pr.id}`}
+                            className="text-dark btn btn-warning"
+                            style={{
+                              textDecoration: "none",
+                              fontSize: "0.75rem",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            <IoTicket
+                              style={{
+                                color: "var(--color-secondary)",
+                                fontSize: "large",
+                              }}
+                            />{" "}
+                            Reserve your tickets{" "}
+                            <IoTicket
+                              style={{
+                                color: "var(--color-secondary)",
+                                fontSize: "large",
+                              }}
+                            />
                           </Link>
                         </td>
                       </tr>

@@ -21,7 +21,13 @@ function AuthForm() {
     >
       <div className="container m-auto">
         <Form method="post" className="text-white">
-          <h1 className="fw-bold" style={{ color: "var(--color-primary)" }}>
+          <h1
+            className="fw-bold pb-3 mb-4"
+            style={{
+              color: "var(--color-primary)",
+              borderBottom: "1px solid var(--color-primary)",
+            }}
+          >
             {isLogin ? "Log in" : "Create a new user"}
           </h1>
           {data && data.message && (
@@ -138,19 +144,19 @@ function AuthForm() {
             </div>
           )}
           <div className="row pt-3 ps-3">
-            <p>* - Required</p>
+            <p className="text-danger">* - Required</p>
           </div>
-          <div>
+          <div className="d-flex justify-content-left">
             <Link
-              class="btn btn-primary mx-3 p-2 px-3 text-white text-decoration-none"
+              class="btn btn-primary me-3 p-2 px-3 text-white text-decoration-none"
               to={`?type=${isLogin ? "signup" : "login"}`}
             >
-              {isLogin ? "Create new user" : "Log in"}
+              {isLogin ? "Create new user" : "Log in with existing account"}
             </Link>
             <button
               disabled={isSubmitting}
               type="submit"
-              class="btn btn-success mx-3 p-2 px-3"
+              class="btn btn-success p-2 px-3"
             >
               {isSubmitting ? "Submitting..." : "Save"}
             </button>

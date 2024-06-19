@@ -167,7 +167,9 @@ function MovieProjection({ movieProjection }) {
   return (
     <>
       {movie && (
-        <div className="container-fluid flex-grow-1 text-center">
+        <div
+          className={classes.outer + " container-fluid flex-grow-1 text-center"}
+        >
           <h1>{movie.title}</h1>
           <div className={classes.inputSeats}>
             <div className={classes.labelNumOfSeats}>Number of seats: </div>
@@ -184,7 +186,7 @@ function MovieProjection({ movieProjection }) {
             </div>
           </div>
           <div className={classes.hallArea}>
-            <h5>Select the first wanted seat</h5>
+            <h4 className="mt-3">Select the first wanted seat</h4>
             {hall &&
               hall.rows.map((row, rowIndex) => (
                 <div
@@ -200,6 +202,8 @@ function MovieProjection({ movieProjection }) {
                         padding: "0.5rem",
                         margin: "0.25rem",
                         fontSize: "1.5rem",
+                        borderRadius: "5px",
+                        color: "black",
                       }}
                       className={
                         checkSeatAvailability(rowIndex, seatIndex)
@@ -215,7 +219,9 @@ function MovieProjection({ movieProjection }) {
               ))}
           </div>
           {showErrorMessage && <h5>Select available seats</h5>}
-          <button onClick={handleReserve}>Reserve</button>
+          <button className="btn btn-success my-3 w-25" onClick={handleReserve}>
+            Reserve
+          </button>
         </div>
       )}
     </>

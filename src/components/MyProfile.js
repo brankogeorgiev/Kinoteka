@@ -4,8 +4,10 @@ import { getAuthToken } from "../util/auth";
 import { projectFirestore } from "../firebase/config";
 import { Form, Button, ListGroup } from "react-bootstrap";
 import "firebase/auth";
-import { FaPen } from "react-icons/fa";
+import { FaPen, FaHeart } from "react-icons/fa";
+import { IoTicket } from "react-icons/io5";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import classes from "./MyProfile.module.css";
 
 function MyProfile() {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -71,16 +73,19 @@ function MyProfile() {
 
   return (
     <div
-      className="d-flex flex-grow-1 px-5 py-2"
+      className={classes.mainDiv + " d-flex flex-grow-1 py-2"}
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
-      <div className="flex-grow-1 row text-white px-5">
+      <div className="flex-grow-1 row text-white px-5 mb-4">
         {/* Left Side */}
-        <h3 className="p-3 fw-bold" style={{ color: "var(--color-primary)" }}>
+        <h1 className="p-3" style={{ color: "var(--color-primary)" }}>
           My profile
-        </h3>
+        </h1>
         {!isUpdating && (
-          <div className="col-9 bg-dark p-4" style={{ borderRadius: "25px" }}>
+          <div
+            className={classes.infoDiv + " col-9 bg-dark p-4"}
+            style={{ borderRadius: "25px" }}
+          >
             <div className="d-flex flex-row justify-content-between">
               <div className="d-flex flex-column">
                 <h3 className="my-auto">
@@ -93,29 +98,38 @@ function MyProfile() {
                   style={{
                     backgroundColor: "inherit",
                     border: "none",
-                    color: "var(--color-primary)",
                   }}
                   onClick={handleUpdateChange}
+                  className="text-danger"
                 >
-                  Update <FaPen className="fs-5" />
+                  Update
+                  <span className="px-2 fs-5">
+                    <FaPen />
+                  </span>
                 </button>
               </div>
             </div>
             <hr />
-            <div className="row">
+            <div className={classes.informations + " row"}>
               {/* Personal Information */}
               <div className="col-6">
                 <h4 className="text-danger">Personal Information</h4>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">First Name</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    First Name
+                  </div>
                   <div>{user.firstName}</div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Last Name</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    Last Name
+                  </div>
                   <div>{user.lastName}</div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Date of Birth</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    Date of Birth
+                  </div>
                   <div>
                     {user.dateOfBirth
                       ? user.dateOfBirth
@@ -126,7 +140,9 @@ function MyProfile() {
                   </div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Gender</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    Gender
+                  </div>
                   <div>
                     {user.gender
                       ? user.gender.charAt(0).toUpperCase() +
@@ -135,7 +151,9 @@ function MyProfile() {
                   </div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">E-Mail</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    E-Mail
+                  </div>
                   <div>{user.email}</div>
                 </div>
               </div>
@@ -143,7 +161,9 @@ function MyProfile() {
               <div className="col-6">
                 <div className="p-3"></div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Phone Number</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    Phone Number
+                  </div>
                   <div>
                     {user.phoneNumber === "" || !user.phoneNumber
                       ? "-"
@@ -151,17 +171,23 @@ function MyProfile() {
                   </div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Country</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    Country
+                  </div>
                   <div>
                     {user.country === "" || !user.country ? "-" : user.country}
                   </div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">City</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    City
+                  </div>
                   <div>{user.city === "" || !user.city ? "-" : user.city}</div>
                 </div>
                 <div className="d-flex flex-column py-2">
-                  <div className="text-secondary">Address</div>
+                  <div className={classes.infoHeadings + " text-secondary"}>
+                    Address
+                  </div>
                   <div>
                     {user.address === "" || !user.address ? "-" : user.address}
                   </div>
@@ -317,7 +343,7 @@ function MyProfile() {
                 </Form.Group>
               </div>
               <Button
-                className="w-50 mx-auto"
+                className="w-25 mx-auto mt-2"
                 variant="success"
                 type="submit"
                 onClick={handleSubmitHandler}
@@ -329,26 +355,36 @@ function MyProfile() {
         )}
 
         {/* Right Side */}
-        <div className="col-3">
+        <div className={classes.side_panel + " col-3 text-center"}>
           <ListGroup>
-            <Link className="text-decoration-none" to="favorite-movies">
+            <Link to="favorite-movies" style={{ textDecoration: "none" }}>
               <ListGroup.Item
                 style={{
                   backgroundColor: "var(--color-secondary)",
-                  color: "var(--color-third)",
+                  color: "var(--color-primary)",
+                  borderTopLeftRadius: "15px",
+                  borderTopRightRadius: "15px",
                 }}
               >
                 Favorites
+                <span className={classes.logo}>
+                  <FaHeart />
+                </span>
               </ListGroup.Item>
             </Link>
-            <Link className="text-decoration-none" to="my-reservations">
+            <Link to="my-reservations" style={{ textDecoration: "none" }}>
               <ListGroup.Item
                 style={{
                   backgroundColor: "var(--color-secondary)",
-                  color: "var(--color-third)",
+                  color: "var(--color-primary)",
+                  borderBottomLeftRadius: "15px",
+                  borderBottomRightRadius: "15px",
                 }}
               >
                 My Tickets
+                <span className={classes.logo}>
+                  <IoTicket />
+                </span>
               </ListGroup.Item>
             </Link>
           </ListGroup>

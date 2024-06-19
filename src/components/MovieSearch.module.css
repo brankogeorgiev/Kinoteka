@@ -2,13 +2,15 @@
   width: 100%;
   border-radius: 1rem;
   font-size: 1.25rem;
-  background-color: var(--color-fourth);
+  background-color: #fff;
   padding-left: 2rem;
-  color: var(--color-primary);
+  margin-bottom: 2rem;
+  color: var(--color-secondary);
 }
 
 .input_field > input::placeholder {
-  color: var(--color-primary);
+  color: var(--color-secondary);
+  font-size: 1.1rem;
 }
 
 .input_field > svg {
@@ -16,7 +18,7 @@
   top: 1.75rem;
   font-size: 1.25rem;
   left: 0.5rem;
-  color: var(--color-primary);
+  color: var(--color-secondary);
 }
 
 .search_container {

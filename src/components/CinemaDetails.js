@@ -1,37 +1,78 @@
+import { FaBookmark, FaShareAltSquare } from "react-icons/fa";
+import { MdMovieFilter } from "react-icons/md";
+import classes from "./CinemaDetails.module.css";
+
 function CinemaDetails() {
   return (
     <div
       className="flex-grow-1 text-white p-5"
       style={{ backgroundColor: "var(--color-secondary)" }}
     >
-      <h3
-        className="text-center fw-bold"
+      <div
+        className="container w-75 border-bottom pb-4"
         style={{ color: "var(--color-primary)" }}
       >
-        About Us
-      </h3>
-      <div className="container p-5 rounded bg-dark mt-5 w-75">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique
-        vestibulum elementum. Nunc finibus efficitur justo quis vestibulum.
-        Suspendisse vel interdum felis, ut dapibus est. In placerat velit
-        tellus, quis accumsan enim fringilla sit amet. <br />
-        <br />
-        Etiam tempus quam augue, et elementum turpis tempus non. Quisque at erat
-        placerat, ullamcorper lectus at, euismod sapien. Donec vitae tempus
-        lacus. Aenean at lacus felis. Integer vestibulum posuere nisl. Sed
-        bibendum consequat leo a lacinia. Praesent a urna sodales, luctus nulla
-        at, convallis ligula. Vivamus sed gravida felis. Mauris venenatis nunc
-        ac purus rhoncus, at ornare dolor gravida. <br />
-        <br />
-        Pellentesque ex diam, accumsan in sodales sit amet, ultricies at sapien.
-        Cras aliquam porta neque non dignissim. Phasellus placerat accumsan
-        tortor ac dignissim. Nunc eget nibh egestas, varius magna nec, tempus
-        urna. Praesent interdum ligula risus, quis gravida mauris finibus at.
-        Etiam sodales euismod dolor et lacinia. <br />
-        <br />
-        Etiam vel ex sagittis mauris mattis facilisis a et lacus. Donec vitae
-        nibh orci. Quisque laoreet nulla non dolor tristique consequat. Ut nisl
-        tellus, vehicula eget semper id, venenatis vel orci.
+        <h1
+          className={classes.heading + " text-left ps-2"}
+          style={{ color: "var(--color-primary)" }}
+        >
+          About Us
+        </h1>
+      </div>
+      <div className={classes.mainDiv + " container rounded bg-dark mt-4"}>
+        <section id="about-us" className={classes.mainText + " p-4"}>
+          <h1>
+            Welcome to <strong>Kinoteka</strong> – Your Ultimate Cinematic
+            Experience!
+          </h1>
+          <br />
+          <p>
+            At Kinoteka, we bring the magic of movies to life. As a new brand on
+            the market, we are dedicated to providing a top-notch movie-going
+            experience. Our state-of-the-art cinema boasts three modern cinema
+            halls, each designed to immerse you in the world of film with the
+            latest in projection and sound technology.
+          </p>
+          <h2>What We Offer:</h2>
+          <ul style={{ listStyle: "none" }}>
+            <li>
+              <span className="fs-3" style={{ color: "var(--color-third)" }}>
+                <MdMovieFilter />
+              </span>{" "}
+              <strong>Latest Releases:</strong> Catch all the newest movie
+              projections, from Hollywood blockbusters to independent gems.
+            </li>
+            <li>
+              <span className="fs-3" style={{ color: "var(--color-third)" }}>
+                <FaBookmark />
+              </span>{" "}
+              <strong> Advanced Booking:</strong> Browse our movie schedule,
+              search for your favorite films, and easily reserve your tickets
+              online.
+            </li>
+            <li>
+              <span className="fs-3" style={{ color: "var(--color-third)" }}>
+                <FaShareAltSquare />
+              </span>{" "}
+              <strong>Interactive Experience:</strong> Share your thoughts by
+              leaving comments and ratings for the movies you've seen, and join
+              our community of movie enthusiasts.
+            </li>
+          </ul>
+          <p>
+            At Kinoteka, we are passionate about movies and strive to create a
+            welcoming environment where every visit is a memorable event.
+            Whether you're a casual viewer or a dedicated cinephile, our aim is
+            to make every screening special.
+          </p>
+          <p>
+            Join us at Kinoteka – where stories come to life on the big screen.
+          </p>
+          <p>
+            Feel free to explore our website and start your cinematic journey
+            with us today!
+          </p>
+        </section>
       </div>
     </div>
   );
