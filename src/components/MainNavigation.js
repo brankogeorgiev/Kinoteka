@@ -1,10 +1,8 @@
-import { Form, NavLink, useRouteLoaderData } from "react-router-dom";
+import { NavLink, useRouteLoaderData } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 import logo from "../items/logo.png";
-import { useState } from "react";
 
 function MainNavigation() {
-  const [loggedIn, setLoggedIn] = useState(true);
   const { token, role } = useRouteLoaderData("root");
   const isAdmin = role === "ROLE_ADMIN";
 

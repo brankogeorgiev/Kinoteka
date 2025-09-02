@@ -1,7 +1,7 @@
 import { Await, defer, useRouteLoaderData } from "react-router-dom";
 import { Suspense } from "react";
 import { projectFirestore } from "../firebase/config";
-import { getUID, tokenLoader } from "../util/auth";
+import { getUID } from "../util/auth";
 import ProfileFavoriteMovies from "../components/ProfileFavoriteMovies";
 import { tailChase } from "ldrs";
 

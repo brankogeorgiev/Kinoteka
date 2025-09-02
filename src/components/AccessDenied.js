@@ -1,6 +1,4 @@
-import { FaHandPaper } from "react-icons/fa";
-import { GiStopSign, GiTrafficCone } from "react-icons/gi";
-import { BsFillSignStopFill } from "react-icons/bs";
+import { GiTrafficCone } from "react-icons/gi";
 import { TbError404Off } from "react-icons/tb";
 import classes from "./AccessDenied.module.css";
 import { useNavigate } from "react-router-dom";

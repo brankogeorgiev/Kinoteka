@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 function ComingSoon({ movies }) {
   const [shownMovies, setShownMovies] = useState([]);
-  const [halls, setHalls] = useState([]);
 
   useEffect(() => {
     const now = new Date();
@@ -28,7 +27,6 @@ function ComingSoon({ movies }) {
           });
         }
       });
-    setHalls(hallsFetched);
   }
 
   function sortMoviesByTitle(ascending) {

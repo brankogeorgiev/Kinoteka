@@ -78,9 +78,6 @@ export async function setUserInfo(uid) {
         localStorage.setItem("email", doc.data().email);
         localStorage.setItem("role", doc.data().role);
         localStorage.setItem("token", crypto.randomUUID());
-        // const expiration = new Date();
-        // expiration.setHours(expiration.getHours() + 1);
-        // localStorage.setItem("expiration", expiration.toISOString());
       }
     });
 }

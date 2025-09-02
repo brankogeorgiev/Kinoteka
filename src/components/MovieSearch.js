@@ -60,7 +60,11 @@ function MovieSearch({ movies }) {
                     to={`/movies/${mov.id}`}
                     className="text-decoration-none"
                   >
-                    <img src={`${mov.poster}`} style={{ width: "100%" }} />
+                    <img
+                      src={`${mov.poster}`}
+                      style={{ width: "100%" }}
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div className="col-11">

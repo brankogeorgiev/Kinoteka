@@ -38,14 +38,9 @@ function ReservationDetail({ reservation }) {
       const checker = movie.reviews.some((mov) => uid === mov.uid);
       setHasReviewed(!checker);
       const reviewTemp = movie.reviews.find((mov) => mov.uid === uid);
-      console.log(reviewTemp);
       setReview(reviewTemp);
     }
   }, [movie]);
-
-  useEffect(() => {
-    console.log(review);
-  }, [review]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -106,7 +101,6 @@ function ReservationDetail({ reservation }) {
   }
 
   async function handleDeleteReservation() {
-    const reservationId = reservation.id;
     let user = {};
     const uid = getUID();
 

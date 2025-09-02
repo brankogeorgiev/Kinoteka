@@ -9,7 +9,7 @@ function MovieDetailPage() {
   tailChase.register();
 
   return (
-    <d>
+    <div>
       <Suspense
         fallback={
           <p
@@ -31,7 +31,7 @@ function MovieDetailPage() {
           {(loadedMovie) => <MovieDetails movie={loadedMovie} />}
         </Await>
       </Suspense>
-    </d>
+    </div>
   );
 }
 

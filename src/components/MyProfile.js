@@ -16,27 +16,19 @@ function MyProfile() {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    fetchUser(uid);
-  }, []);
+    async function loadUser() {
+      const doc = await projectFirestore.collection("users").doc(uid).get();
+      if (doc.exists) {
+        setUser({ id: uid, ...doc.data() });
+      }
+    }
+    if (uid) loadUser(uid);
+  }, [uid]);
 
   useEffect(() => {
     const { id, ...userDataWithoutId } = user;
     setUserData(userDataWithoutId);
   }, [user]);
-
-  async function fetchUser(uid) {
-    await projectFirestore
-      .collection("users")
-      .doc(uid)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          let userTemp = doc.data();
-          userTemp.id = uid;
-          setUser(userTemp);
-        }
-      });
-  }
 
   function handleUpdateChange() {
     setIsUpdating(!isUpdating);
@@ -66,6 +58,8 @@ function MyProfile() {
 
   function handleSubmitHandler(e) {
     e.preventDefault();
+
+    console.log(userData);
 
     updateEmailInFirebaseAuth(userData.email);
     window.location.reload();
@@ -212,7 +206,7 @@ function MyProfile() {
               </div>
             </div>
             <hr />
-            <Form className="row">
+            <Form className="row" onSubmit={handleSubmitHandler}>
               <div className="col-6">
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>First Name</Form.Label>
@@ -346,7 +340,6 @@ function MyProfile() {
                 className="w-25 mx-auto mt-2"
                 variant="success"
                 type="submit"
-                onClick={handleSubmitHandler}
               >
                 Submit
               </Button>

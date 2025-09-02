@@ -52,7 +52,7 @@ function ProfileFavoriteMovies({ object }) {
                   <img
                     className="card-img"
                     src={element.poster}
-                    alt="Card image"
+                    alt="Card"
                     style={{
                       opacity: "0.75",
                       width: "15rem",

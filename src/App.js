@@ -8,8 +8,6 @@ import AuthenticationPage, {
 import MoviesRootLayout from "./pages/MoviesRoot";
 import MoviesPage from "./pages/Movies";
 import { loader as moviesLoader } from "./pages/Movies";
-import HallPage, { loader as hallInfoLoader } from "./pages/HallPage.js";
-import HallsPage, { loader as hallsInfoLoader } from "./pages/HallsPage.js";
 import MovieDetailPage, {
   loader as movieDetailLoader,
 } from "./pages/MovieDetail";
@@ -119,28 +117,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "halls",
-      //   loader: checkIsAdmin,
-      //   children: [
-      //     {
-      //       index: true,
-      //       element: <HallsPage />,
-      //       loader: hallsInfoLoader,
-      //     },
-      //     {
-      //       path: ":hallId",
-      //       id: "hall-info",
-      //       loader: hallInfoLoader,
-      //       children: [
-      //         {
-      //           index: true,
-      //           element: <HallPage />,
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
       {
         path: "profile",
         id: "profile",
@@ -179,10 +155,6 @@ const router = createBrowserRouter([
         element: <ComingSoonPage />,
         loader: moviesLoader,
       },
-      // {
-      //   path: "profile",
-      //   // loader: moviesLoader,
-      // },
       {
         path: "cinema-details",
         element: <CinemaDetailsPage />,

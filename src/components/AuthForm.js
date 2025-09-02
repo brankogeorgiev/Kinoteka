@@ -12,7 +12,7 @@ function AuthForm() {
 
   const [searchParams] = useSearchParams();
   const isLogin = searchParams.get("type") === "login";
-  const isSubmitting = navigation.state === "submitting"; // TO-DO
+  const isSubmitting = navigation.state === "submitting";
 
   return (
     <div

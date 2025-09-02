@@ -49,14 +49,6 @@ export async function loadHallsFirebase() {
         });
       }
     });
-  // .then((doc) => {
-  //   if (doc.exists) {
-  //     halls.push(doc.data());
-  //   } else {
-  //     console.log("Could not find that hall");
-  //     halls = [];
-  //   }
-  // });
   return halls;
 }
 

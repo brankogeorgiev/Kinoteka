@@ -8,7 +8,6 @@ import {
   FaGithub,
   FaPhoneAlt,
 } from "react-icons/fa";
-import { getAuthToken } from "../util/auth";
 import { FaMapLocation } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 
@@ -22,10 +21,6 @@ function Footer() {
   useEffect(() => {
     fetchHalls();
   }, []);
-
-  useEffect(() => {
-    console.log(halls[0]);
-  }, [halls]);
 
   async function fetchHalls() {
     let results = [];
@@ -88,6 +83,7 @@ function Footer() {
                 {halls &&
                   halls.map((hall) => (
                     <li
+                      key={hall.id}
                       style={{ backgroundColor: "var(--color-secondary)" }}
                       className="text-white list-group-item"
                     >

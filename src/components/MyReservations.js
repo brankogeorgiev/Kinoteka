@@ -34,7 +34,7 @@ function MyReservations({ object }) {
         <h3 className="m-3 text-danger">Past tickets</h3>
         {passedMovies &&
           passedMovies.map((res) => {
-            const movie = movies.find((mov) => mov.id == res.movie);
+            const movie = movies.find((mov) => mov.id === res.movie);
             const now = new Date();
             const nowArray = now.toDateString().split(" ");
             const reservationDate = res.time.toDate().toDateString().split(" ");
@@ -81,7 +81,11 @@ function MyReservations({ object }) {
                   style={{ backgroundColor: "var(--color-fourth)" }}
                 >
                   <div className="col-2">
-                    <img src={movie.poster} style={{ maxWidth: "75%" }} />
+                    <img
+                      src={movie.poster}
+                      style={{ maxWidth: "75%" }}
+                      alt=""
+                    />
                   </div>
                   <div className="col-10">
                     <h4 className="pt-4">{movie.title}</h4>
@@ -106,7 +110,7 @@ function MyReservations({ object }) {
         <h3 className="m-3">Upcoming tickets</h3>
         {upcomingMovies &&
           upcomingMovies.map((res) => {
-            const movie = movies.find((mov) => mov.id == res.movie);
+            const movie = movies.find((mov) => mov.id === res.movie);
 
             const now = new Date();
             const nowArray = now.toDateString().split(" ");
@@ -154,7 +158,11 @@ function MyReservations({ object }) {
                   style={{ backgroundColor: "var(--color-fourth)" }}
                 >
                   <div className="col-2">
-                    <img src={movie.poster} style={{ maxWidth: "75%" }} />
+                    <img
+                      src={movie.poster}
+                      style={{ maxWidth: "75%" }}
+                      alt=""
+                    />
                   </div>
                   <div className="col-10">
                     <h4 className="pt-4">{movie.title}</h4>
