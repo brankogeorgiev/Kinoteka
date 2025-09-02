@@ -56,13 +56,12 @@ function MyProfile() {
     });
   }
 
-  function handleSubmitHandler(e) {
+  async function handleSubmitHandler(e) {
     e.preventDefault();
 
-    console.log(userData);
-
-    updateEmailInFirebaseAuth(userData.email);
-    window.location.reload();
+    await updateEmailInFirebaseAuth(userData.email);
+    setUser({ id: uid, ...userData });
+    setIsUpdating(false);
   }
 
   return (
