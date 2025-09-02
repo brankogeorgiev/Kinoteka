@@ -5,11 +5,15 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { projectFirestore } from "../firebase/config.js";
 import { FaPlus } from "react-icons/fa";
 import { BiSolidMoviePlay } from "react-icons/bi";
+import { useState } from "react";
 
 function AdminMoviesList({ movies }) {
-  const handleDelete = (id) => {
+  const [movieList, setMovieList] = useState(movies);
+
+  const handleDelete = async (id) => {
     projectFirestore.collection("movies").doc(id).delete();
-    window.location.reload();
+
+    setMovieList(movieList.filter((mov) => mov.id !== id));
   };
 
   return (
@@ -36,7 +40,7 @@ function AdminMoviesList({ movies }) {
           </div>
         </div>
         <ul>
-          {movies.map((movie) => (
+          {movieList.map((movie) => (
             <li key={movie.id}>
               <Link to={`/movies/${movie.id}`}>
                 <img src={movie.poster} alt={movie.description} />

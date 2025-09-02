@@ -17,12 +17,17 @@ function ProfileFavoriteMovies({ object }) {
   async function handleRemoveMovieFromFavorites(e, movieId) {
     e.preventDefault();
     const uid = user.id;
-    const indexOfMovie = user.favoriteMovies.indexOf(movieId);
-    user.favoriteMovies.splice(indexOfMovie, 1);
+
+    const updatedFavoriteMovies = user.favoriteMovies.filter(
+      (id) => id !== movieId
+    );
+
     await projectFirestore.collection("users").doc(uid).update({
-      favoriteMovies: user.favoriteMovies,
+      favoriteMovies: updatedFavoriteMovies,
     });
-    window.location.reload();
+
+    user.favoriteMovies = updatedFavoriteMovies;
+    setFavoriteMovies(favoriteMovies.filter((mov) => mov.id !== movieId));
   }
 
   return (

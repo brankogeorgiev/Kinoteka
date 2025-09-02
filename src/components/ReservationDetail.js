@@ -176,7 +176,7 @@ function ReservationDetail({ reservation }) {
     const now = new Date();
     const dateTime = firebase.firestore.Timestamp.fromDate(now);
 
-    const review = {
+    const newReview = {
       rating: numOfStars,
       uid: uid,
       description: reviewDescription,
@@ -184,19 +184,24 @@ function ReservationDetail({ reservation }) {
       dateTime: dateTime,
     };
 
-    const movieReviews = movie.reviews;
-    movieReviews.push(review);
+    const updatedReviews = movie.reviews
+      ? [...movie.reviews, newReview]
+      : [newReview];
+
+    // const movieReviews = movie.reviews;
+    // movieReviews.push(review);
 
     await projectFirestore.collection("movies").doc(movie.id).update({
-      reviews: movieReviews,
+      reviews: updatedReviews,
     });
 
+    setMovie({ ...movie, reviews: updatedReviews });
+    setHasReviewed(false);
+    setReview(newReview);
     setReviewDescription("");
     setReviewTitle("");
     setNumOfStars(0);
     handleClose();
-
-    window.location.reload();
   }
 
   const handleChange = (event) => {
